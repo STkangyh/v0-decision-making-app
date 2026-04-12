@@ -11,6 +11,7 @@ import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
+import { recordPostedDecisionId } from '@/lib/my-posted-decisions'
 import { CATEGORIES, CATEGORY_EMOJIS, DEADLINE_OPTIONS, type Category } from '@/lib/types'
 import { toast } from 'sonner'
 import { ArrowLeft, Sparkles } from 'lucide-react'
@@ -39,17 +40,22 @@ export default function NewDecisionPage() {
       const supabase = createClient()
       const deadline = new Date(Date.now() + deadlineMinutes * 60 * 1000).toISOString()
 
-      const { error } = await supabase.from('decisions').insert({
-        title: title.trim(),
-        description: description.trim() || null,
-        option_a: optionA.trim(),
-        option_b: optionB.trim(),
-        category,
-        deadline,
-        author_session_id: getSessionId(),
-      })
+      const { data, error } = await supabase
+        .from('decisions')
+        .insert({
+          title: title.trim(),
+          description: description.trim() || null,
+          option_a: optionA.trim(),
+          option_b: optionB.trim(),
+          category,
+          deadline,
+          author_session_id: getSessionId(),
+        })
+        .select('id')
+        .single()
 
       if (error) throw error
+      if (data?.id) recordPostedDecisionId(data.id)
 
       toast.success('결정 요청이 등록되었습니다!')
       router.push('/')

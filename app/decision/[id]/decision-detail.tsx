@@ -21,6 +21,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
 import { fetchVoteForSession, insertVote } from '@/lib/supabase/votes'
 import { getSessionId } from '@/lib/session'
+import { isDecisionOwnerInBrowser } from '@/lib/decision-owner'
 import { CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -64,6 +65,8 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [remainingTime, setRemainingTime] = useState<string | null>(null)
   const [isExpired, setIsExpired] = useState(false)
+  /** 하이드레이션 일치: 마운트 후에만 주인 여부 판별 */
+  const [isOwnerBrowser, setIsOwnerBrowser] = useState(false)
 
   // Check if deadline has passed
   useEffect(() => {
@@ -107,6 +110,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
 
     checkExistingVote()
   }, [decision.id])
+
+  useEffect(() => {
+    setIsOwnerBrowser(isDecisionOwnerInBrowser(decision))
+  }, [decision.id, decision.author_session_id])
 
   useEffect(() => {
     if (voteInFlight.current) return
@@ -351,9 +358,9 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
               </button>
             </div>
 
-            {/* Action Buttons */}
+            {/* Action Buttons — 올린 본인만 (이 브라우저 세션 / 등록 시 기록된 ID) */}
             <div className="flex flex-wrap gap-2 border-t pt-4">
-              {!isClosed && (
+              {!isClosed && isOwnerBrowser && (
                 <Button
                   variant="outline"
                   size="sm"
