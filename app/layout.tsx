@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SeasonProvider } from '@/lib/season-context'
 import { AuthProvider } from '@/components/auth-provider'
+import { BackgroundImage } from '@/components/background-image'
 import { Toaster } from 'sonner'
 import './globals.css'
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
           <SeasonProvider>
+            <BackgroundImage />
             <AuthProvider>
               {children}
             </AuthProvider>
