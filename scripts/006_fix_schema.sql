@@ -25,13 +25,15 @@ SET search_path = public
 AS $$
 BEGIN
   IF NEW.selected_option = 'A' THEN
-    UPDATE decisions
+    UPDATE public.decisions
     SET votes_a = votes_a + 1, updated_at = NOW()
     WHERE id = NEW.decision_id;
   ELSIF NEW.selected_option = 'B' THEN
-    UPDATE decisions
+    UPDATE public.decisions
     SET votes_b = votes_b + 1, updated_at = NOW()
     WHERE id = NEW.decision_id;
+  ELSE
+    RAISE EXCEPTION 'Invalid selected_option value: %', NEW.selected_option;
   END IF;
   RETURN NEW;
 END;
