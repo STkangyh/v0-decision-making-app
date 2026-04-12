@@ -146,6 +146,10 @@ const isAuthor = !decision.author_session_id || decision.author_session_id === s
 
 ---
 
+## DB ERD
+
+![DB ERD](docs/erd.png)
+
 ## DB 스키마
 
 ### decisions
