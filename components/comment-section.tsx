@@ -44,18 +44,15 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
     if (!content.trim() || isSubmitting) return
 
     setIsSubmitting(true)
-    console.log('[v0] handleSubmit comment', { decisionId, sessionId, content: content.trim() })
 
     try {
       const supabase = createClient()
 
-      const { data, error } = await supabase.from('comments').insert({
+      const { error } = await supabase.from('comments').insert({
         decision_id: decisionId,
         session_id: sessionId,
         content: content.trim(),
-      }).select()
-
-      console.log('[v0] comment insert result', { data, error })
+      })
 
       if (error) throw error
 

@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
-import { CATEGORIES, CATEGORY_EMOJIS, type Category } from '@/lib/types'
+import { CATEGORIES, CATEGORY_EMOJIS, DEADLINE_OPTIONS, type Category } from '@/lib/types'
 import { toast } from 'sonner'
 import { ArrowLeft, Sparkles } from 'lucide-react'
 import Link from 'next/link'
@@ -24,6 +24,7 @@ export default function NewDecisionPage() {
   const [optionA, setOptionA] = useState('')
   const [optionB, setOptionB] = useState('')
   const [category, setCategory] = useState<Category>('기타')
+  const [deadlineMinutes, setDeadlineMinutes] = useState<number>(60)
 
   const isValid = title.trim() && optionA.trim() && optionB.trim()
 
@@ -35,6 +36,7 @@ export default function NewDecisionPage() {
 
     try {
       const supabase = createClient()
+      const deadline = new Date(Date.now() + deadlineMinutes * 60 * 1000).toISOString()
 
       const { error } = await supabase.from('decisions').insert({
         title: title.trim(),
@@ -42,6 +44,7 @@ export default function NewDecisionPage() {
         option_a: optionA.trim(),
         option_b: optionB.trim(),
         category,
+        deadline,
       })
 
       if (error) throw error
@@ -118,6 +121,27 @@ export default function NewDecisionPage() {
                         )}
                       >
                         {CATEGORY_EMOJIS[cat]} {cat}
+                      </button>
+                    ))}
+                  </div>
+                </Field>
+
+                <Field>
+                  <FieldLabel>투표 마감 시간</FieldLabel>
+                  <div className="flex flex-wrap gap-2">
+                    {DEADLINE_OPTIONS.map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => setDeadlineMinutes(option.value)}
+                        className={cn(
+                          'rounded-full border px-3 py-1.5 text-sm transition-colors',
+                          deadlineMinutes === option.value
+                            ? 'border-primary bg-primary text-primary-foreground'
+                            : 'border-border bg-background hover:border-primary/50'
+                        )}
+                      >
+                        {option.label}
                       </button>
                     ))}
                   </div>

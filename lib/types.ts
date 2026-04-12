@@ -8,9 +8,19 @@ export interface Decision {
   votes_a: number
   votes_b: number
   is_closed: boolean
+  deadline: string | null
   created_at: string
   updated_at: string
 }
+
+export const DEADLINE_OPTIONS = [
+  { label: '30분', value: 30 },
+  { label: '1시간', value: 60 },
+  { label: '3시간', value: 180 },
+  { label: '6시간', value: 360 },
+  { label: '12시간', value: 720 },
+  { label: '24시간', value: 1440 },
+] as const
 
 export interface Vote {
   id: string
