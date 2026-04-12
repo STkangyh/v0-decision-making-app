@@ -1,44 +1,40 @@
-import type { Metadata } from "next";
-import { ToastProvider } from "@/components/ui/toast-provider";
-import { RotatingBadge } from "@/components/rotating-badge";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Geist_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
+import { ThemeProvider } from '@/components/theme-provider'
+import { SeasonProvider } from '@/lib/season-context'
+import { AuthProvider } from '@/components/auth-provider'
+import { BackgroundImage } from '@/components/background-image'
+import { Top3Popup } from '@/components/top3-popup'
+import { RotatingBadge } from '@/components/rotating-badge'
+import { Toaster } from 'sonner'
+import './globals.css'
 
-const BASE_URL = "https://decide-for-me-bay.vercel.app";
+const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+
+const BASE_URL = 'https://v0-decision-making-app-blush.vercel.app'
 
 export const metadata: Metadata = {
-  title: "대신결정해줘",
-  description: "공부하다 막히면 우리한테 맡겨 — 익명 투표 앱",
+  title: '대신 결정해 줘!',
+  description: '공부하다 막히면 우리한테 맡겨 — 익명 A/B 투표 앱',
   openGraph: {
-    title: "대신결정해줘",
-    description: "공부하다 막히면 우리한테 맡겨 — 익명 투표 앱",
+    title: '대신 결정해 줘!',
+    description: '공부하다 막히면 우리한테 맡겨 — 익명 A/B 투표 앱',
     url: BASE_URL,
-    siteName: "대신결정해줘",
-    images: [
-      {
-        url: `${BASE_URL}/api/og-default`,
-        width: 1200,
-        height: 630,
-        alt: "대신결정해줘",
-      },
-    ],
-    locale: "ko_KR",
-    type: "website",
+    siteName: '대신 결정해 줘!',
+    locale: 'ko_KR',
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "대신결정해줘",
-    description: "공부하다 막히면 우리한테 맡겨",
-    images: [`${BASE_URL}/api/og-default`],
+    card: 'summary_large_image',
+    title: '대신 결정해 줘!',
+    description: '공부하다 막히면 우리한테 맡겨',
   },
-};
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className="dark h-full antialiased">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
@@ -46,12 +42,22 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="min-h-full flex flex-col"
+        className="${geistMono.variable} min-h-full flex flex-col antialiased"
         style={{ fontFamily: "'Pretendard', sans-serif" }}
       >
-        <ToastProvider>{children}</ToastProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
+          <SeasonProvider>
+            <BackgroundImage />
+            <AuthProvider>
+              {children}
+              <Top3Popup />
+            </AuthProvider>
+            <Toaster richColors position="top-center" />
+          </SeasonProvider>
+        </ThemeProvider>
         <RotatingBadge />
+        {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
-  );
+  )
 }
