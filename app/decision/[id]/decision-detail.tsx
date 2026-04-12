@@ -102,9 +102,9 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
     })
   }, [decision.id])
 
-  // author_session_id가 null인 레거시 글은 누구나 관리 가능
-  // author_session_id가 있는 신규 글은 작성자 본인만 관리 가능
-  const isAuthor = !decision.author_session_id || decision.author_session_id === sessionId
+  // 본인이 작성한 글만 관리 가능 (session_id가 일치해야 함)
+  // author_session_id가 null인 레거시 글은 소유권 확인 불가 → 관리 버튼 미표시
+  const isAuthor = !!sessionId && decision.author_session_id === sessionId
 
   // Check if deadline has passed
   useEffect(() => {
@@ -225,10 +225,12 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
     try {
       const supabase = createClient()
 
+      // DB 레벨에서 author_session_id 일치 여부 검증 — 본인 글만 마감 가능
       const { error } = await supabase
         .from('decisions')
         .update({ is_closed: true })
         .eq('id', decision.id)
+        .eq('author_session_id', sessionId)
 
       if (error) throw error
 
@@ -247,7 +249,12 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
     try {
       const supabase = createClient()
 
-      const { error } = await supabase.from('decisions').delete().eq('id', decision.id)
+      // DB 레벨에서 author_session_id 일치 여부 검증 — 본인 글만 삭제 가능
+      const { error } = await supabase
+        .from('decisions')
+        .delete()
+        .eq('id', decision.id)
+        .eq('author_session_id', sessionId)
 
       if (error) throw error
 
