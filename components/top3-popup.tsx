@@ -27,9 +27,9 @@ async function fetchTop3(): Promise<RankedDecision[]> {
 }
 
 const RANK_META = [
-  { emoji: '🥇', label: '1위', ring: 'ring-yellow-400/60', bg: 'from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20', badge: 'bg-yellow-400 text-white' },
-  { emoji: '🥈', label: '2위', ring: 'ring-slate-400/60',  bg: 'from-slate-50 to-gray-50 dark:from-slate-800/30 dark:to-gray-800/30',    badge: 'bg-slate-400 text-white' },
-  { emoji: '🥉', label: '3위', ring: 'ring-orange-400/60', bg: 'from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20', badge: 'bg-orange-400 text-white' },
+  { emoji: '🥇', label: '1위', ring: 'ring-yellow-400/60', bg: 'bg-yellow-50 dark:bg-yellow-900/20', badge: 'bg-yellow-400 text-white' },
+  { emoji: '🥈', label: '2위', ring: 'ring-slate-400/60',  bg: 'bg-slate-50 dark:bg-slate-800/30',   badge: 'bg-slate-400 text-white' },
+  { emoji: '🥉', label: '3위', ring: 'ring-orange-400/60', bg: 'bg-orange-50 dark:bg-orange-900/20', badge: 'bg-orange-400 text-white' },
 ]
 
 export function Top3Popup() {
@@ -119,7 +119,7 @@ export function Top3Popup() {
                       href={`/decision/${decision.id}`}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        'group block rounded-2xl bg-gradient-to-r p-4 ring-2 transition-all hover:scale-[1.02]',
+                        'group block rounded-2xl p-4 ring-2 transition-all hover:scale-[1.02]',
                         rank.ring, rank.bg
                       )}
                     >

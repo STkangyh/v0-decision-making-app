@@ -119,9 +119,8 @@ export default function NewDecisionPage() {
             </Alert>
           )}
 
-          {/* 그라디언트 테두리 카드 */}
-          <div className="rounded-2xl bg-gradient-to-r from-orange-400/80 via-amber-300/80 to-orange-500/80 p-px shadow-xl">
-            <div className="rounded-[15px] bg-background p-5">
+          {/* 카드 */}
+          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
               <form onSubmit={handleSubmit} className="space-y-5">
 
                 {/* 제목 */}
@@ -280,7 +279,6 @@ export default function NewDecisionPage() {
                   </div>
                 </div>
               </form>
-            </div>
           </div>
         </motion.div>
       </main>

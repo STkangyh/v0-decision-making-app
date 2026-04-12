@@ -4,36 +4,33 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ─────────────────────────────────────────
-   LIGHT MODE — 연한 노란색 테마
+   LIGHT MODE — 연한 오렌지 테마
 ───────────────────────────────────────── */
 :root {
   --primary:            oklch(0.67 0.20 45);    /* 브랜드 오렌지 */
   --primary-foreground: oklch(0.99 0   0);
-  --accent:             oklch(0.72 0.16 75);    /* 따뜻한 앰버 */
+  --accent:             oklch(0.72 0.16 55);    /* 따뜻한 앰버 */
   --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.978 0.028 90);  /* 연한 노란색 */
-  --foreground:         oklch(0.18  0.03 60);
+  --background:         oklch(0.975 0.030 40);  /* 연한 오렌지 */
+  --foreground:         oklch(0.18  0.03 45);
   --card:               oklch(1    0    0);
-  --card-foreground:    oklch(0.18  0.03 60);
+  --card-foreground:    oklch(0.18  0.03 45);
   --popover:            oklch(1    0    0);
-  --popover-foreground: oklch(0.18  0.03 60);
-  --secondary:          oklch(0.94  0.04 85);
-  --secondary-foreground: oklch(0.42 0.12 60);
-  --muted:              oklch(0.95  0.025 85);
-  --muted-foreground:   oklch(0.54  0.06 60);
-  --border:             oklch(0.88  0.05 85);
-  --input:              oklch(0.90  0.04 85);
+  --popover-foreground: oklch(0.18  0.03 45);
+  --secondary:          oklch(0.94  0.04 45);
+  --secondary-foreground: oklch(0.42 0.12 45);
+  --muted:              oklch(0.95  0.025 45);
+  --muted-foreground:   oklch(0.54  0.06 45);
+  --border:             oklch(0.88  0.05 45);
+  --input:              oklch(0.90  0.04 45);
   --ring:               oklch(0.67  0.20 45);
   --destructive:        oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
   --radius: 0.95rem;
 
-  /* 그라디언트 변수 */
-  --grad-from: oklch(0.67 0.20 45);
-  --grad-to:   oklch(0.72 0.16 75);
-  --blob-a:    oklch(0.88 0.10 85  / 0.30);
-  --blob-b:    oklch(0.90 0.08 65  / 0.22);
-  --dot-color: oklch(0.80 0.08 85  / 0.25);
+  --blob-a:    oklch(0.88 0.08 40  / 0.28);
+  --blob-b:    oklch(0.91 0.06 55  / 0.20);
+  --dot-color: oklch(0.80 0.07 45  / 0.22);
 }
 
 /* ─────────────────────────────────────────
@@ -57,9 +54,7 @@
   --border:             oklch(0.27 0.03 50);
   --input:              oklch(0.27 0.03 50);
   --ring:               oklch(0.72 0.19 45);
-  --grad-from: oklch(0.72 0.19 45);
-  --grad-to:   oklch(0.75 0.15 75);
-  --dot-color: oklch(0.50 0.07 60 / 0.25);
+  --dot-color: oklch(0.50 0.07 45 / 0.25);
 }
 
 /* ─────────────────────────────────────────
@@ -149,23 +144,20 @@
     inset 0 1px 0 oklch(1 0 0 / 0.05);
 }
 
-/* 그라디언트 텍스트 */
+/* 그라디언트 텍스트 → 단색 primary */
 .gradient-text {
-  background: linear-gradient(135deg, var(--grad-from), var(--grad-to));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary);
 }
 
-/* 그라디언트 버튼 */
+/* 버튼 → 단색 primary */
 .btn-gradient {
-  background: linear-gradient(135deg, var(--grad-from), var(--grad-to));
+  background: var(--primary);
   color: oklch(0.99 0 0);
   border: none;
   transition: opacity 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 .btn-gradient:hover {
-  opacity: 0.92;
+  opacity: 0.88;
   box-shadow: 0 4px 20px oklch(from var(--primary) l c h / 0.35);
   transform: translateY(-1px);
 }
