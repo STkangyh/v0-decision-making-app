@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { SeasonProvider } from '@/lib/season-context'
 import { AuthProvider } from '@/components/auth-provider'
 import { BackgroundImage } from '@/components/background-image'
+import { Top3Popup } from '@/components/top3-popup'
 import { Toaster } from 'sonner'
 import './globals.css'
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <BackgroundImage />
             <AuthProvider>
               {children}
+              <Top3Popup />
             </AuthProvider>
             <Toaster richColors position="top-center" />
           </SeasonProvider>

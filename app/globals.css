@@ -301,3 +301,12 @@
     0 8px 32px oklch(from var(--primary) l c h / 0.12),
     0 2px 8px oklch(0 0 0 / 0.04);
 }
+
+/* TOP3 플로팅 버튼 pulse */
+@keyframes pulse-slow {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(from var(--primary) l c h / 0.5); }
+  50%       { box-shadow: 0 0 0 10px oklch(from var(--primary) l c h / 0); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
