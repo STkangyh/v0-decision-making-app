@@ -11,6 +11,7 @@ import {
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
 import { type Category, type Decision } from '@/lib/types'
+import { calcPercent, getTimeAgo, formatRemainingTime } from '@/lib/vote-utils'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { ShareButton } from '@/components/share-button'
@@ -66,8 +67,8 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
 
   const isClosed = decision.is_closed || isExpired
   const totalVotes = localVotesA + localVotesB
-  const percentA = totalVotes > 0 ? Math.round((localVotesA / totalVotes) * 100) : 50
-  const percentB = totalVotes > 0 ? Math.round((localVotesB / totalVotes) * 100) : 50
+  const percentA = calcPercent(localVotesA, totalVotes)
+  const percentB = calcPercent(localVotesB, totalVotes)
 
   useEffect(() => {
     const init = async () => {
@@ -294,20 +295,3 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   )
 }
 
-function getTimeAgo(date: Date): string {
-  const diffInSeconds = Math.floor((Date.now() - date.getTime()) / 1000)
-  if (diffInSeconds < 60) return '방금 전'
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}분 전`
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}시간 전`
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}일 전`
-  return date.toLocaleDateString('ko-KR')
-}
-
-function formatRemainingTime(ms: number): string {
-  const seconds = Math.floor(ms / 1000)
-  const minutes = Math.floor(seconds / 60)
-  const hours = Math.floor(minutes / 60)
-  if (hours > 0) return `${hours}시간 ${minutes % 60}분 남음`
-  if (minutes > 0) return `${minutes}분 ${seconds % 60}초 남음`
-  return `${seconds}초 남음`
-}
