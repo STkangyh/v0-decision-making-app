@@ -331,10 +331,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'A'
-                    ? 'border-primary bg-primary/5 shadow-md shadow-primary/10'
+                    ? 'border-[#FFAA00] bg-[#FFF8E6] shadow-md'
                     : isClosed && winningOption === 'A'
-                      ? 'border-primary/50 bg-primary/3'
-                      : 'border-border bg-white hover:border-primary/60 hover:bg-orange-50/60',
+                      ? 'border-[#FFAA00] bg-[#FFF8E6]'
+                      : 'border-[#FFAA00] bg-white hover:bg-[#FFF8E6]',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -343,18 +343,18 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-base font-bold flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/15 text-xs font-extrabold text-primary">A</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-extrabold text-white">A</span>
                     {decision.option_a}
                   </span>
                   {(votedOption || isClosed) && (
                     <div className="text-right">
-                      <div className="text-xl font-extrabold text-primary">{percentA}%</div>
+                      <div className="text-xl font-extrabold text-[#FFAA00]">{percentA}%</div>
                       <div className="text-xs text-muted-foreground">{decision.votes_a}표</div>
                     </div>
                   )}
                 </div>
                 {votedOption === 'A' && (
-                  <p className="relative mt-1 text-xs font-medium text-primary">✓ 내가 선택했어요</p>
+                  <p className="relative mt-1 text-xs font-medium text-[#FFAA00]">✓ 내가 선택했어요</p>
                 )}
               </button>
 
@@ -371,10 +371,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'B'
-                    ? 'border-accent bg-accent/5 shadow-md shadow-accent/10'
+                    ? 'border-[#FFAA00] bg-[#FFF8E6] shadow-md'
                     : isClosed && winningOption === 'B'
-                      ? 'border-accent/50 bg-accent/3'
-                      : 'border-border bg-white hover:border-accent/60 hover:bg-amber-50/60',
+                      ? 'border-[#FFAA00] bg-[#FFF8E6]'
+                      : 'border-[#FFAA00] bg-white hover:bg-[#FFF8E6]',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -383,18 +383,18 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-base font-bold flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent/15 text-xs font-extrabold text-accent">B</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-extrabold text-white">B</span>
                     {decision.option_b}
                   </span>
                   {(votedOption || isClosed) && (
                     <div className="text-right">
-                      <div className="text-xl font-extrabold text-accent">{percentB}%</div>
+                      <div className="text-xl font-extrabold text-[#FFAA00]">{percentB}%</div>
                       <div className="text-xs text-muted-foreground">{decision.votes_b}표</div>
                     </div>
                   )}
                 </div>
                 {votedOption === 'B' && (
-                  <p className="relative mt-1 text-xs font-medium text-accent">✓ 내가 선택했어요</p>
+                  <p className="relative mt-1 text-xs font-medium text-[#FFAA00]">✓ 내가 선택했어요</p>
                 )}
               </button>
             </div>

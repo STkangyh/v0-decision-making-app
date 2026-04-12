@@ -183,10 +183,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'A'
-                ? 'border-[#FFAA00] bg-orange-50 shadow-sm'
+                ? 'border-[#FFAA00] bg-[#FFF8E6] shadow-sm'
                 : isClosed && localVotesA >= localVotesB && localVotesA > 0
-                  ? 'border-[#FFAA00] bg-orange-50'
-                  : 'border-[#FFAA00] bg-white hover:bg-orange-50',
+                  ? 'border-[#FFAA00] bg-[#FFF8E6]'
+                  : 'border-[#FFAA00] bg-white hover:bg-[#FFF8E6]',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -195,10 +195,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             )}
             <div className="relative flex items-center justify-between">
               <span className="font-semibold text-sm">
-                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-orange-100 text-xs font-bold text-primary">A</span>
+                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-bold text-white">A</span>
                 {decision.option_a}
               </span>
-              {(votedOption || isClosed) && <span className="text-sm font-bold text-primary">{percentA}%</span>}
+              {(votedOption || isClosed) && <span className="text-sm font-bold text-[#FFAA00]">{percentA}%</span>}
             </div>
           </button>
 
@@ -215,10 +215,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'B'
-                ? 'border-[#FFAA00] bg-amber-50 shadow-sm'
+                ? 'border-[#FFAA00] bg-[#FFF8E6] shadow-sm'
                 : isClosed && localVotesB > localVotesA
-                  ? 'border-[#FFAA00] bg-amber-50'
-                  : 'border-[#FFAA00] bg-white hover:bg-amber-50',
+                  ? 'border-[#FFAA00] bg-[#FFF8E6]'
+                  : 'border-[#FFAA00] bg-white hover:bg-[#FFF8E6]',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -227,10 +227,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             )}
             <div className="relative flex items-center justify-between">
               <span className="font-semibold text-sm">
-                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-xs font-bold text-accent">B</span>
+                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-bold text-white">B</span>
                 {decision.option_b}
               </span>
-              {(votedOption || isClosed) && <span className="text-sm font-bold text-accent">{percentB}%</span>}
+              {(votedOption || isClosed) && <span className="text-sm font-bold text-[#FFAA00]">{percentB}%</span>}
             </div>
           </button>
         </div>
