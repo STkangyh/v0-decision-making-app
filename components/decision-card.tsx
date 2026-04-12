@@ -17,14 +17,14 @@ import { cn } from '@/lib/utils'
 import { ShareButton } from '@/components/share-button'
 
 const CATEGORY_META: Record<Category, { color: string; icon: React.ElementType }> = {
-  '음식': { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900/40 dark:text-orange-300', icon: ForkKnife },
-  '패션': { color: 'bg-pink-100   text-pink-600   dark:bg-pink-900/40   dark:text-pink-300',   icon: TShirt },
-  '여가': { color: 'bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300', icon: GameController },
-  '공부': { color: 'bg-blue-100   text-blue-600   dark:bg-blue-900/40   dark:text-blue-300',   icon: BookOpen },
-  '연애': { color: 'bg-rose-100   text-rose-600   dark:bg-rose-900/40   dark:text-rose-300',   icon: Heart },
-  '스포츠': { color: 'bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-300',   icon: Trophy },
-  '친구': { color: 'bg-amber-100  text-amber-600  dark:bg-amber-900/40  dark:text-amber-300',  icon: Handshake },
-  '기타': { color: 'bg-slate-100  text-slate-600  dark:bg-slate-800/60  dark:text-slate-300',  icon: Star },
+  '음식': { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300', icon: ForkKnife },
+  '패션': { color: 'bg-pink-100   text-pink-600   dark:bg-pink-900   dark:text-pink-300',   icon: TShirt },
+  '여가': { color: 'bg-violet-100 text-violet-600 dark:bg-violet-900 dark:text-violet-300', icon: GameController },
+  '공부': { color: 'bg-blue-100   text-blue-600   dark:bg-blue-900   dark:text-blue-300',   icon: BookOpen },
+  '연애': { color: 'bg-rose-100   text-rose-600   dark:bg-rose-900   dark:text-rose-300',   icon: Heart },
+  '스포츠': { color: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300',   icon: Trophy },
+  '친구': { color: 'bg-amber-100  text-amber-600  dark:bg-amber-900  dark:text-amber-300',  icon: Handshake },
+  '기타': { color: 'bg-slate-100  text-slate-600  dark:bg-slate-800  dark:text-slate-300',  icon: Star },
 }
 
 function CategoryBadge({ category }: { category: Category }) {
@@ -52,7 +52,6 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const [likeCount, setLikeCount] = useState(0)
   const [isBookmarked, setIsBookmarked] = useState(false)
 
-  // Check if deadline has passed
   useEffect(() => {
     if (!decision.deadline) return
     const checkDeadline = () => {
@@ -146,7 +145,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const timeAgo = getTimeAgo(new Date(decision.created_at))
 
   return (
-    <Card className="overflow-hidden glass-card rounded-2xl card-hover border-0">
+    <Card className="overflow-hidden bg-white border border-border rounded-2xl card-hover shadow-sm">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
@@ -158,7 +157,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
                 </span>
               )}
               {!isClosed && remainingTime && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-600 dark:bg-amber-900/40 dark:text-amber-300">
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-600 dark:bg-amber-900 dark:text-amber-300">
                   <Timer weight="fill" className="h-3 w-3" />{remainingTime}
                 </span>
               )}
@@ -184,10 +183,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'A'
-                ? 'border-primary bg-primary/5 shadow-sm shadow-primary/10'
+                ? 'border-primary bg-orange-50 shadow-sm'
                 : isClosed && localVotesA >= localVotesB && localVotesA > 0
-                  ? 'border-primary/40 bg-primary/3'
-                  : 'border-border bg-white hover:border-primary/60 hover:bg-orange-50/60',
+                  ? 'border-primary bg-orange-50'
+                  : 'border-border bg-white hover:border-primary hover:bg-orange-50',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -196,7 +195,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             )}
             <div className="relative flex items-center justify-between">
               <span className="font-semibold text-sm">
-                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary">A</span>
+                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-orange-100 text-xs font-bold text-primary">A</span>
                 {decision.option_a}
               </span>
               {(votedOption || isClosed) && <span className="text-sm font-bold text-primary">{percentA}%</span>}
@@ -204,9 +203,9 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
           </button>
 
           <div className="flex items-center gap-2">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+            <div className="h-px flex-1 bg-border" />
             <span className="text-xs font-bold text-muted-foreground">VS</span>
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+            <div className="h-px flex-1 bg-border" />
           </div>
 
           {/* 선택지 B */}
@@ -216,10 +215,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'B'
-                ? 'border-accent bg-accent/5 shadow-sm shadow-accent/10'
+                ? 'border-accent bg-amber-50 shadow-sm'
                 : isClosed && localVotesB > localVotesA
-                  ? 'border-accent/40 bg-accent/3'
-                  : 'border-border bg-white hover:border-accent/60 hover:bg-amber-50/60',
+                  ? 'border-accent bg-amber-50'
+                  : 'border-border bg-white hover:border-accent hover:bg-amber-50',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -228,7 +227,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             )}
             <div className="relative flex items-center justify-between">
               <span className="font-semibold text-sm">
-                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">B</span>
+                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-xs font-bold text-accent">B</span>
                 {decision.option_b}
               </span>
               {(votedOption || isClosed) && <span className="text-sm font-bold text-accent">{percentB}%</span>}
@@ -241,7 +240,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
       <div className="px-4 pb-3">
         <Link
           href={`/decision/${decision.id}`}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-primary/20 bg-primary/5 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary/10 hover:border-primary/40"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-border bg-muted py-2 text-sm font-semibold text-foreground transition-all hover:bg-orange-50 hover:border-primary hover:text-primary"
         >
           <ChatCircle weight="fill" className="h-4 w-4" />
           의견 보기 · 상세 페이지
@@ -249,14 +248,14 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
         </Link>
       </div>
 
-      <CardFooter className="flex items-center justify-between border-t border-white/30 dark:border-white/10 bg-white/20 dark:bg-white/5 px-4 py-2.5 text-xs text-muted-foreground">
+      <CardFooter className="flex items-center justify-between border-t border-border bg-muted px-4 py-2.5 text-xs text-muted-foreground">
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">
-            <UsersThree weight="fill" className="h-3.5 w-3.5 text-primary/60" />
-            <span className="font-semibold text-foreground/70">{totalVotes}명</span> 참여
+            <UsersThree weight="fill" className="h-3.5 w-3.5 text-primary" />
+            <span className="font-semibold text-foreground">{totalVotes}명</span> 참여
           </span>
           <Link href={`/decision/${decision.id}`} className="flex items-center gap-1 hover:text-primary transition-colors">
-            <ChatCircle weight="fill" className="h-3.5 w-3.5 text-primary/60" />
+            <ChatCircle weight="fill" className="h-3.5 w-3.5 text-primary" />
             {commentCount}개 의견
           </Link>
         </div>
@@ -265,7 +264,6 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             <Clock weight="fill" className="h-3.5 w-3.5" />
             {timeAgo}
           </span>
-          {/* 좋아요 */}
           <button
             onClick={handleLike}
             className={cn(
@@ -277,7 +275,6 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             <ThumbsUp weight={isLiked ? 'fill' : 'regular'} className="h-3.5 w-3.5" />
             {likeCount > 0 && <span className="text-[11px] font-semibold">{likeCount}</span>}
           </button>
-          {/* 즐겨찾기 */}
           <button
             onClick={handleBookmark}
             className={cn(
@@ -294,4 +291,3 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
     </Card>
   )
 }
-
