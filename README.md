@@ -2,6 +2,8 @@
 
 > 로그인 없이 누구나 익명으로 A/B 투표를 올리고, 투표하고, 댓글로 의견을 나누는 결정 도우미 앱
 
+**🚀 배포 링크:** [https://v0-decision-making-app-blush.vercel.app](https://v0-decision-making-app-blush.vercel.app)
+
 ---
 
 ## 기획 배경
