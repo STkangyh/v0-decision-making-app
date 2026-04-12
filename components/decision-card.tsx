@@ -11,6 +11,7 @@ import { getSessionId } from '@/lib/session'
 import { CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { ShareButton } from '@/components/share-button'
 
 interface DecisionCardProps {
   decision: Decision
@@ -220,10 +221,13 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             {commentCount}개 의견
           </Link>
         </div>
-        <span className="flex items-center gap-1">
-          <Clock className="h-4 w-4" />
-          {timeAgo}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1">
+            <Clock className="h-4 w-4" />
+            {timeAgo}
+          </span>
+          <ShareButton decisionId={decision.id} title={decision.title} variant="icon" />
+        </div>
       </CardFooter>
     </Card>
   )

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Header } from '@/components/header'
 import { CommentSection } from '@/components/comment-section'
+import { ShareButton } from '@/components/share-button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -32,6 +33,7 @@ import {
   Lock,
   Timer,
 } from 'lucide-react'
+
 
 interface DecisionDetailProps {
   decision: Decision
@@ -323,19 +325,20 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap gap-2 border-t pt-4">
-              {!isClosed && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleClose}
-                  disabled={isClosing}
-                  className="gap-1.5"
-                >
-                  {isClosing ? <Spinner className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-                  투표 마감
-                </Button>
-              )}
+            <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-4">
+              <div className="flex flex-wrap gap-2">
+                {!isClosed && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleClose}
+                    disabled={isClosing}
+                    className="gap-1.5"
+                  >
+                    {isClosing ? <Spinner className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                    투표 마감
+                  </Button>
+                )}
 
               <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
                 <DialogTrigger asChild>
@@ -362,6 +365,9 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
+              </div>
+
+              <ShareButton decisionId={decision.id} title={decision.title} />
             </div>
           </CardContent>
         </Card>
