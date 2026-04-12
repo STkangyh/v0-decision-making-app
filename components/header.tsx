@@ -43,10 +43,7 @@ export function Header() {
         {/* 로고 */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <LogoMark />
-          <div className="flex flex-col leading-tight">
-            <span className="text-[15px] font-extrabold gradient-text tracking-tight">대신 결정해 줘!</span>
-            <span className="text-[10px] text-muted-foreground font-medium">딴짓하는 중... ✨</span>
-          </div>
+          <span className="text-[15px] font-extrabold gradient-text tracking-tight">대신 결정해 줘!</span>
         </Link>
 
         {/* 우측 컨트롤 */}
