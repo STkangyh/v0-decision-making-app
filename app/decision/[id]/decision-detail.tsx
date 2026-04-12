@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Header } from '@/components/header'
 import { CommentSection } from '@/components/comment-section'
 import { ShareButton } from '@/components/share-button'
+import { VoteChart } from '@/components/vote-chart'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { type Category, type Decision } from '@/lib/types'
@@ -389,6 +390,18 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                   <p className="relative mt-1 text-xs font-medium text-accent">✓ 내가 선택했어요</p>
                 )}
               </button>
+            </div>
+
+            {/* 투표 추이 차트 */}
+            <div className="rounded-xl border border-white/30 dark:border-white/10 bg-white/30 dark:bg-white/5 p-4">
+              <div className="mb-3 flex items-center gap-1.5 text-sm font-bold text-foreground">
+                <span>📊</span> 투표 추이
+              </div>
+              <VoteChart
+                decisionId={decision.id}
+                optionA={decision.option_a}
+                optionB={decision.option_b}
+              />
             </div>
 
             {/* Action Buttons */}
