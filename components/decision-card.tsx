@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { MessageCircle, Users, CheckCircle2, Clock, Timer } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
@@ -12,6 +10,23 @@ import { CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { ShareButton } from '@/components/share-button'
+
+const CATEGORY_BADGE: Record<Category, string> = {
+  '음식': 'bg-orange-100 text-orange-600',
+  '패션': 'bg-pink-100 text-pink-600',
+  '여가': 'bg-violet-100 text-violet-600',
+  '공부': 'bg-blue-100 text-blue-600',
+  '연애': 'bg-rose-100 text-rose-600',
+  '기타': 'bg-slate-100 text-slate-600',
+}
+
+function CategoryBadge({ category }: { category: Category }) {
+  return (
+    <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold', CATEGORY_BADGE[category])}>
+      {CATEGORY_EMOJIS[category]} {category}
+    </span>
+  )
+}
 
 interface DecisionCardProps {
   decision: Decision
@@ -118,29 +133,27 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const timeAgo = getTimeAgo(new Date(decision.created_at))
 
   return (
-    <Card className="overflow-hidden transition-shadow hover:shadow-md">
+    <Card className="overflow-hidden border-border/60 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/8 card-glow">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
-            <div className="mb-2 flex items-center gap-2">
-              <Badge variant="secondary" className="gap-1 text-xs">
-                {CATEGORY_EMOJIS[decision.category as Category]} {decision.category}
-              </Badge>
+            <div className="mb-2 flex flex-wrap items-center gap-1.5">
+              <CategoryBadge category={decision.category as Category} />
               {isClosed && (
-                <Badge variant="outline" className="gap-1 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
                   <CheckCircle2 className="h-3 w-3" />
                   마감됨
-                </Badge>
+                </span>
               )}
               {!isClosed && remainingTime && (
-                <Badge variant="secondary" className="gap-1 text-xs">
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-600">
                   <Timer className="h-3 w-3" />
                   {remainingTime}
-                </Badge>
+                </span>
               )}
             </div>
             <Link href={`/decision/${decision.id}`}>
-              <h3 className="line-clamp-2 text-lg font-semibold leading-snug text-foreground hover:text-primary">
+              <h3 className="line-clamp-2 text-base font-bold leading-snug text-foreground hover:text-primary transition-colors">
                 {decision.title}
               </h3>
             </Link>
@@ -155,75 +168,93 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
 
       <CardContent className="pb-3">
         <div className="space-y-2">
+          {/* 선택지 A — 인디고 */}
           <button
             onClick={() => handleVote('A')}
             disabled={!!votedOption || isClosed || isVoting}
             className={cn(
-              'relative w-full overflow-hidden rounded-lg border p-3 text-left transition-all',
+              'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'A'
-                ? 'border-primary bg-primary/5'
-                : 'border-border hover:border-primary/50',
-              (votedOption || isClosed) && 'cursor-default'
+                ? 'border-primary bg-primary/5 shadow-sm shadow-primary/10'
+                : isClosed && localVotesA >= localVotesB && localVotesA > 0
+                  ? 'border-primary/40 bg-primary/3'
+                  : 'border-border/60 bg-slate-50/50 hover:border-primary/40 hover:bg-primary/3',
+              (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
             {(votedOption || isClosed) && (
               <div
-                className="absolute inset-y-0 left-0 bg-primary/10 transition-all duration-500"
+                className="absolute inset-y-0 left-0 vote-a-bar transition-all duration-700"
                 style={{ width: `${percentA}%` }}
               />
             )}
             <div className="relative flex items-center justify-between">
-              <span className="font-medium">{decision.option_a}</span>
+              <span className="font-semibold text-sm">
+                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary">A</span>
+                {decision.option_a}
+              </span>
               {(votedOption || isClosed) && (
-                <span className="text-sm font-semibold text-primary">{percentA}%</span>
+                <span className="text-sm font-bold text-primary">{percentA}%</span>
               )}
             </div>
           </button>
 
+          <div className="flex items-center gap-2">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+            <span className="text-xs font-bold text-muted-foreground">VS</span>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+          </div>
+
+          {/* 선택지 B — 코랄 */}
           <button
             onClick={() => handleVote('B')}
             disabled={!!votedOption || isClosed || isVoting}
             className={cn(
-              'relative w-full overflow-hidden rounded-lg border p-3 text-left transition-all',
+              'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'B'
-                ? 'border-accent bg-accent/10'
-                : 'border-border hover:border-accent/50',
-              (votedOption || isClosed) && 'cursor-default'
+                ? 'border-accent bg-accent/5 shadow-sm shadow-accent/10'
+                : isClosed && localVotesB > localVotesA
+                  ? 'border-accent/40 bg-accent/3'
+                  : 'border-border/60 bg-slate-50/50 hover:border-accent/40 hover:bg-accent/3',
+              (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
             {(votedOption || isClosed) && (
               <div
-                className="absolute inset-y-0 left-0 bg-accent/20 transition-all duration-500"
+                className="absolute inset-y-0 left-0 vote-b-bar transition-all duration-700"
                 style={{ width: `${percentB}%` }}
               />
             )}
             <div className="relative flex items-center justify-between">
-              <span className="font-medium">{decision.option_b}</span>
+              <span className="font-semibold text-sm">
+                <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">B</span>
+                {decision.option_b}
+              </span>
               {(votedOption || isClosed) && (
-                <span className="text-sm font-semibold text-accent-foreground">{percentB}%</span>
+                <span className="text-sm font-bold text-accent">{percentB}%</span>
               )}
             </div>
           </button>
         </div>
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between border-t bg-muted/30 px-4 py-2.5 text-sm text-muted-foreground">
-        <div className="flex items-center gap-4">
+      <CardFooter className="flex items-center justify-between border-t border-border/40 bg-gradient-to-r from-primary/3 to-accent/3 px-4 py-2.5 text-xs text-muted-foreground">
+        <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">
-            <Users className="h-4 w-4" />
-            {totalVotes}명 참여
+            <Users className="h-3.5 w-3.5" />
+            <span className="font-medium">{totalVotes}명</span> 참여
           </span>
           <Link
             href={`/decision/${decision.id}`}
-            className="flex items-center gap-1 hover:text-foreground"
+            className="flex items-center gap-1 hover:text-primary transition-colors"
           >
-            <MessageCircle className="h-4 w-4" />
+            <MessageCircle className="h-3.5 w-3.5" />
             {commentCount}개 의견
           </Link>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <span className="flex items-center gap-1">
-            <Clock className="h-4 w-4" />
+            <Clock className="h-3.5 w-3.5" />
             {timeAgo}
           </span>
           <ShareButton decisionId={decision.id} title={decision.title} variant="icon" />
