@@ -17,13 +17,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
-import { CATEGORIES, CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
+import { CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import {
@@ -31,7 +28,6 @@ import {
   CheckCircle2,
   Users,
   Clock,
-  Edit,
   Trash2,
   Lock,
 } from 'lucide-react'
@@ -48,15 +44,6 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   const [isDeleting, setIsDeleting] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-  const [showEditDialog, setShowEditDialog] = useState(false)
-
-  // Edit form state
-  const [editTitle, setEditTitle] = useState(decision.title)
-  const [editDescription, setEditDescription] = useState(decision.description || '')
-  const [editOptionA, setEditOptionA] = useState(decision.option_a)
-  const [editOptionB, setEditOptionB] = useState(decision.option_b)
-  const [editCategory, setEditCategory] = useState<Category>(decision.category as Category)
-  const [isUpdating, setIsUpdating] = useState(false)
 
   const totalVotes = decision.votes_a + decision.votes_b
   const percentA = totalVotes > 0 ? Math.round((decision.votes_a / totalVotes) * 100) : 50
@@ -89,17 +76,21 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
 
     setIsVoting(true)
     const sessionId = getSessionId()
+    console.log('[v0] handleVote called', { option, sessionId, decisionId: decision.id })
 
     try {
       const supabase = createClient()
 
-      const { error: voteError } = await supabase.from('votes').insert({
+      const { data: voteData, error: voteError } = await supabase.from('votes').insert({
         decision_id: decision.id,
         session_id: sessionId,
         selected_option: option,
-      })
+      }).select()
+
+      console.log('[v0] vote insert result', { voteData, voteError })
 
       if (voteError) {
+        console.error('[v0] vote error', voteError)
         if (voteError.code === '23505') {
           toast.error('이미 투표하셨습니다!')
         } else {
@@ -164,44 +155,6 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
     } finally {
       setIsDeleting(false)
       setShowDeleteDialog(false)
-    }
-  }
-
-  const handleUpdate = async () => {
-    if (!editTitle.trim() || !editOptionA.trim() || !editOptionB.trim()) return
-
-    setIsUpdating(true)
-
-    try {
-      const supabase = createClient()
-
-      const { error } = await supabase
-        .from('decisions')
-        .update({
-          title: editTitle.trim(),
-          description: editDescription.trim() || null,
-          option_a: editOptionA.trim(),
-          option_b: editOptionB.trim(),
-          category: editCategory,
-        })
-        .eq('id', decision.id)
-
-      if (error) throw error
-
-      setDecision((prev) => ({
-        ...prev,
-        title: editTitle.trim(),
-        description: editDescription.trim() || null,
-        option_a: editOptionA.trim(),
-        option_b: editOptionB.trim(),
-        category: editCategory,
-      }))
-      setShowEditDialog(false)
-      toast.success('수정되었습니다!')
-    } catch {
-      toast.error('수정에 실패했습니다.')
-    } finally {
-      setIsUpdating(false)
     }
   }
 
@@ -325,87 +278,6 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-2 border-t pt-4">
-              <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-                <DialogTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-1.5">
-                    <Edit className="h-4 w-4" />
-                    수정
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle>결정 요청 수정</DialogTitle>
-                    <DialogDescription>내용을 수정해 주세요</DialogDescription>
-                  </DialogHeader>
-                  <FieldGroup className="py-4">
-                    <Field>
-                      <FieldLabel>제목</FieldLabel>
-                      <Input
-                        value={editTitle}
-                        onChange={(e) => setEditTitle(e.target.value)}
-                        maxLength={100}
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel>설명 (선택)</FieldLabel>
-                      <Textarea
-                        value={editDescription}
-                        onChange={(e) => setEditDescription(e.target.value)}
-                        rows={3}
-                        maxLength={500}
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel>카테고리</FieldLabel>
-                      <div className="flex flex-wrap gap-2">
-                        {CATEGORIES.map((cat) => (
-                          <button
-                            key={cat}
-                            type="button"
-                            onClick={() => setEditCategory(cat)}
-                            className={cn(
-                              'rounded-full border px-3 py-1.5 text-sm transition-colors',
-                              editCategory === cat
-                                ? 'border-primary bg-primary text-primary-foreground'
-                                : 'border-border bg-background hover:border-primary/50'
-                            )}
-                          >
-                            {CATEGORY_EMOJIS[cat]} {cat}
-                          </button>
-                        ))}
-                      </div>
-                    </Field>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <Field>
-                        <FieldLabel>선택지 A</FieldLabel>
-                        <Input
-                          value={editOptionA}
-                          onChange={(e) => setEditOptionA(e.target.value)}
-                          maxLength={100}
-                        />
-                      </Field>
-                      <Field>
-                        <FieldLabel>선택지 B</FieldLabel>
-                        <Input
-                          value={editOptionB}
-                          onChange={(e) => setEditOptionB(e.target.value)}
-                          maxLength={100}
-                        />
-                      </Field>
-                    </div>
-                  </FieldGroup>
-                  <DialogFooter>
-                    <Button variant="outline" onClick={() => setShowEditDialog(false)}>
-                      취소
-                    </Button>
-                    <Button onClick={handleUpdate} disabled={isUpdating}>
-                      {isUpdating ? <Spinner className="mr-2 h-4 w-4" /> : null}
-                      저장
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-
               {!decision.is_closed && (
                 <Button
                   variant="outline"
