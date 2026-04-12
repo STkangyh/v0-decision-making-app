@@ -11,6 +11,8 @@ export interface Decision {
   deadline: string | null
   created_at: string
   updated_at: string
+  /** 새 글 등록 시 저장. 이전 행은 null일 수 있음 */
+  author_session_id?: string | null
 }
 
 export const DEADLINE_OPTIONS = [
@@ -38,12 +40,14 @@ export interface Comment {
   created_at: string
 }
 
-export type Category = 
+export type Category =
   | '음식'
   | '패션'
   | '여가'
   | '공부'
   | '연애'
+  | '친구'
+  | '스포츠'
   | '기타'
 
 export const CATEGORIES: Category[] = [
@@ -52,14 +56,18 @@ export const CATEGORIES: Category[] = [
   '여가',
   '공부',
   '연애',
+  '친구',
+  '스포츠',
   '기타',
 ]
 
 export const CATEGORY_EMOJIS: Record<Category, string> = {
-  '음식': '🍽️',
-  '패션': '👗',
-  '여가': '🎮',
-  '공부': '📚',
-  '연애': '💕',
-  '기타': '✨',
+  음식: '🍽️',
+  패션: '👗',
+  여가: '🎮',
+  공부: '📚',
+  연애: '💕',
+  친구: '🤝',
+  스포츠: '⚽',
+  기타: '✨',
 }
