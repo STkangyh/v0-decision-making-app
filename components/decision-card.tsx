@@ -145,7 +145,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const timeAgo = getTimeAgo(new Date(decision.created_at))
 
   return (
-    <Card className="overflow-hidden bg-white border border-border rounded-2xl card-hover shadow-sm">
+    <Card className="overflow-hidden bg-white border-2 border-[#FFAA00] rounded-2xl card-hover shadow-sm">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
@@ -183,10 +183,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'A'
-                ? 'border-primary bg-orange-50 shadow-sm'
+                ? 'border-[#FFAA00] bg-orange-50 shadow-sm'
                 : isClosed && localVotesA >= localVotesB && localVotesA > 0
-                  ? 'border-primary bg-orange-50'
-                  : 'border-border bg-white hover:border-primary hover:bg-orange-50',
+                  ? 'border-[#FFAA00] bg-orange-50'
+                  : 'border-[#FFAA00] bg-white hover:bg-orange-50',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -215,10 +215,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'B'
-                ? 'border-accent bg-amber-50 shadow-sm'
+                ? 'border-[#FFAA00] bg-amber-50 shadow-sm'
                 : isClosed && localVotesB > localVotesA
-                  ? 'border-accent bg-amber-50'
-                  : 'border-border bg-white hover:border-accent hover:bg-amber-50',
+                  ? 'border-[#FFAA00] bg-amber-50'
+                  : 'border-[#FFAA00] bg-white hover:bg-amber-50',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -240,7 +240,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
       <div className="px-4 pb-3">
         <Link
           href={`/decision/${decision.id}`}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-border bg-muted py-2 text-sm font-semibold text-foreground transition-all hover:bg-orange-50 hover:border-primary hover:text-primary"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#FFAA00] bg-muted py-2 text-sm font-semibold text-foreground transition-all hover:bg-orange-50 hover:text-primary"
         >
           <ChatCircle weight="fill" className="h-4 w-4" />
           의견 보기 · 상세 페이지
@@ -248,7 +248,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
         </Link>
       </div>
 
-      <CardFooter className="flex items-center justify-between border-t border-border bg-muted px-4 py-2.5 text-xs text-muted-foreground">
+      <CardFooter className="flex items-center justify-between border-t border-[#FFAA00] bg-muted px-4 py-2.5 text-xs text-muted-foreground">
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">
             <UsersThree weight="fill" className="h-3.5 w-3.5 text-primary" />
