@@ -83,7 +83,9 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
     setSessionId(getSessionId())
   }, [])
 
-  const isAuthor = !!sessionId && decision.author_session_id === sessionId
+  // author_session_id가 null인 레거시 글은 누구나 관리 가능
+  // author_session_id가 있는 신규 글은 작성자 본인만 관리 가능
+  const isAuthor = !decision.author_session_id || decision.author_session_id === sessionId
 
   // Check if deadline has passed
   useEffect(() => {
