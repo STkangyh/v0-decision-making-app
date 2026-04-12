@@ -10,7 +10,8 @@ import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
 import { checkProfanity } from '@/lib/moderate'
 import { toast } from 'sonner'
-import { MessageCircle, Send, Trash2 } from 'lucide-react'
+import { MessageCircle, Send, Trash2, ShieldAlert } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import type { Comment } from '@/lib/types'
 
 interface CommentSectionProps {
@@ -32,6 +33,7 @@ async function fetchComments(decisionId: string): Promise<Comment[]> {
 export function CommentSection({ decisionId }: CommentSectionProps) {
   const [content, setContent] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [profanityError, setProfanityError] = useState<string[] | null>(null)
   const sessionId = typeof window !== 'undefined' ? getSessionId() : ''
 
   const { data: comments, isLoading } = useSWR(
@@ -40,17 +42,22 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
     { refreshInterval: 5000 }
   )
 
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value)
+    if (profanityError) setProfanityError(null)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!content.trim() || isSubmitting) return
 
     setIsSubmitting(true)
+    setProfanityError(null)
 
     try {
-      // 비속어 필터링
       const { blocked, words } = await checkProfanity(content.trim())
       if (blocked) {
-        toast.error(`부적절한 표현이 포함되어 있습니다: ${words.join(', ')}`)
+        setProfanityError(words)
         return
       }
 
@@ -100,23 +107,51 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
         의견 나누기
       </h3>
 
-      <form onSubmit={handleSubmit} className="flex gap-2">
-        <Textarea
-          placeholder="당신의 의견을 남겨주세요..."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={2}
-          className="flex-1 resize-none"
-          maxLength={500}
-        />
-        <Button
-          type="submit"
-          size="icon"
-          disabled={!content.trim() || isSubmitting}
-          className="h-auto"
-        >
-          {isSubmitting ? <Spinner className="h-4 w-4" /> : <Send className="h-4 w-4" />}
-        </Button>
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <div className="flex gap-2">
+          <Textarea
+            placeholder="당신의 의견을 남겨주세요..."
+            value={content}
+            onChange={handleContentChange}
+            rows={2}
+            maxLength={500}
+            className={cn(
+              'flex-1 resize-none transition-colors',
+              profanityError && 'border-destructive focus-visible:ring-destructive'
+            )}
+          />
+          <Button
+            type="submit"
+            size="icon"
+            disabled={!content.trim() || isSubmitting}
+            className="h-auto"
+          >
+            {isSubmitting ? <Spinner className="h-4 w-4" /> : <Send className="h-4 w-4" />}
+          </Button>
+        </div>
+
+        {/* 인라인 비속어 경고 */}
+        {profanityError && (
+          <div className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-2.5 text-sm text-destructive">
+            <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
+            <div className="space-y-1">
+              <p className="font-medium">부적절한 표현이 포함되어 있습니다</p>
+              <p className="text-destructive/80">
+                커뮤니티 가이드라인에 맞게 수정 후 다시 시도해 주세요.
+              </p>
+              <div className="flex flex-wrap gap-1 pt-0.5">
+                {profanityError.map((word, i) => (
+                  <span
+                    key={i}
+                    className="inline-block rounded bg-destructive/15 px-1.5 py-0.5 text-xs font-mono font-semibold"
+                  >
+                    {word}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </form>
 
       {isLoading && (
@@ -137,10 +172,7 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
       {!isLoading && comments && comments.length > 0 && (
         <div className="space-y-3">
           {comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="rounded-lg border bg-card p-3"
-            >
+            <div key={comment.id} className="rounded-lg border bg-card p-3">
               <div className="flex items-start justify-between gap-2">
                 <p className="flex-1 text-sm text-foreground">{comment.content}</p>
                 {comment.session_id === sessionId && (
