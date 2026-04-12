@@ -11,8 +11,9 @@ import { Button } from '@/components/ui/button'
 import { type Category, type Decision } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import {
-  ForkKnife, TShirt, GameController, BookOpen, Heart, Star,
+  ForkKnife, TShirt, GameController, BookOpen, Heart, Trophy, Handshake, Star,
   ArrowLeft, CheckCircle, UsersThree, Clock, Trash, Lock, Timer,
+  ThumbsUp, BookmarkSimple,
 } from '@phosphor-icons/react'
 import {
   Dialog,
@@ -34,6 +35,8 @@ const CATEGORY_META: Record<Category, { color: string; icon: React.ElementType }
   '여가': { color: 'bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300', icon: GameController },
   '공부': { color: 'bg-blue-100   text-blue-600   dark:bg-blue-900/40   dark:text-blue-300',   icon: BookOpen },
   '연애': { color: 'bg-rose-100   text-rose-600   dark:bg-rose-900/40   dark:text-rose-300',   icon: Heart },
+  '스포츠': { color: 'bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-300',   icon: Trophy },
+  '친구': { color: 'bg-amber-100  text-amber-600  dark:bg-amber-900/40  dark:text-amber-300',  icon: Handshake },
   '기타': { color: 'bg-slate-100  text-slate-600  dark:bg-slate-800/60  dark:text-slate-300',  icon: Star },
 }
 
@@ -78,10 +81,25 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   const [remainingTime, setRemainingTime] = useState<string | null>(null)
   const [isExpired, setIsExpired] = useState(false)
   const [sessionId, setSessionId] = useState<string>('')
+  const [isLiked, setIsLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(0)
+  const [isBookmarked, setIsBookmarked] = useState(false)
 
   useEffect(() => {
-    setSessionId(getSessionId())
-  }, [])
+    const sid = getSessionId()
+    setSessionId(sid)
+    if (!sid) return
+    const supabase = createClient()
+    Promise.all([
+      supabase.from('likes').select('id').eq('decision_id', decision.id).eq('session_id', sid).single(),
+      supabase.from('bookmarks').select('id').eq('decision_id', decision.id).eq('session_id', sid).single(),
+      supabase.from('likes').select('id', { count: 'exact', head: true }).eq('decision_id', decision.id),
+    ]).then(([likeRes, bookmarkRes, countRes]) => {
+      setIsLiked(!!likeRes.data)
+      setIsBookmarked(!!bookmarkRes.data)
+      setLikeCount(countRes.count ?? 0)
+    })
+  }, [decision.id])
 
   // author_session_id가 null인 레거시 글은 누구나 관리 가능
   // author_session_id가 있는 신규 글은 작성자 본인만 관리 가능
@@ -173,6 +191,28 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
       toast.error('투표에 실패했습니다.')
     } finally {
       setIsVoting(false)
+    }
+  }
+
+  const handleLike = async () => {
+    const supabase = createClient()
+    if (isLiked) {
+      await supabase.from('likes').delete().eq('decision_id', decision.id).eq('session_id', sessionId)
+      setIsLiked(false); setLikeCount((c) => Math.max(0, c - 1))
+    } else {
+      await supabase.from('likes').insert({ decision_id: decision.id, session_id: sessionId })
+      setIsLiked(true); setLikeCount((c) => c + 1)
+    }
+  }
+
+  const handleBookmark = async () => {
+    const supabase = createClient()
+    if (isBookmarked) {
+      await supabase.from('bookmarks').delete().eq('decision_id', decision.id).eq('session_id', sessionId)
+      setIsBookmarked(false); toast.success('즐겨찾기 해제')
+    } else {
+      await supabase.from('bookmarks').insert({ decision_id: decision.id, session_id: sessionId })
+      setIsBookmarked(true); toast.success('즐겨찾기 추가!')
     }
   }
 
@@ -396,7 +436,35 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
               </div>
 
-              <ShareButton decisionId={decision.id} title={decision.title} />
+              <div className="flex items-center gap-2">
+                {/* 좋아요 */}
+                <button
+                  onClick={handleLike}
+                  className={cn(
+                    'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-all',
+                    isLiked
+                      ? 'border-rose-300 bg-rose-50 text-rose-500 dark:bg-rose-900/30 dark:border-rose-700 dark:text-rose-300'
+                      : 'border-border text-muted-foreground hover:border-rose-300 hover:text-rose-400'
+                  )}
+                >
+                  <ThumbsUp weight={isLiked ? 'fill' : 'regular'} className="h-4 w-4" />
+                  <span>{likeCount > 0 ? likeCount : '좋아요'}</span>
+                </button>
+                {/* 즐겨찾기 */}
+                <button
+                  onClick={handleBookmark}
+                  className={cn(
+                    'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-all',
+                    isBookmarked
+                      ? 'border-amber-300 bg-amber-50 text-amber-500 dark:bg-amber-900/30 dark:border-amber-700 dark:text-amber-300'
+                      : 'border-border text-muted-foreground hover:border-amber-300 hover:text-amber-400'
+                  )}
+                >
+                  <BookmarkSimple weight={isBookmarked ? 'fill' : 'regular'} className="h-4 w-4" />
+                  <span>{isBookmarked ? '저장됨' : '저장'}</span>
+                </button>
+                <ShareButton decisionId={decision.id} title={decision.title} />
+              </div>
             </div>
           </CardContent>
         </Card>

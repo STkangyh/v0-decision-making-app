@@ -39,12 +39,14 @@ export interface Comment {
   created_at: string
 }
 
-export type Category = 
+export type Category =
   | '음식'
   | '패션'
   | '여가'
   | '공부'
   | '연애'
+  | '스포츠'
+  | '친구'
   | '기타'
 
 export const CATEGORIES: Category[] = [
@@ -53,6 +55,8 @@ export const CATEGORIES: Category[] = [
   '여가',
   '공부',
   '연애',
+  '스포츠',
+  '친구',
   '기타',
 ]
 
@@ -62,5 +66,21 @@ export const CATEGORY_EMOJIS: Record<Category, string> = {
   '여가': '🎮',
   '공부': '📚',
   '연애': '💕',
+  '스포츠': '🏆',
+  '친구': '🤝',
   '기타': '✨',
+}
+
+export interface Like {
+  id: string
+  decision_id: string
+  session_id: string
+  created_at: string
+}
+
+export interface Bookmark {
+  id: string
+  decision_id: string
+  session_id: string
+  created_at: string
 }

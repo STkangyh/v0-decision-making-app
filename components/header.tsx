@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { PlusCircle, Smiley, UserCircle, SignOut } from '@phosphor-icons/react'
+import { PlusCircle, Smiley, SignOut, User } from '@phosphor-icons/react'
 import { ThemeSelector } from './theme-selector'
 import { useAuth } from './auth-provider'
 
@@ -30,8 +30,10 @@ export function Header() {
           {/* 유저 정보 */}
           {user && (
             <div className="flex items-center gap-1.5 glass rounded-full px-3 py-1.5">
-              <UserCircle weight="fill" className="h-4 w-4 text-primary" />
-              <span className="text-sm font-semibold text-foreground">{user.username}</span>
+              <Link href="/mypage" className="flex items-center gap-1.5 hover:text-primary transition-colors">
+                <User weight="fill" className="h-4 w-4 text-primary" />
+                <span className="text-sm font-semibold text-foreground">{user.username}</span>
+              </Link>
               <button
                 onClick={logout}
                 title="로그아웃"

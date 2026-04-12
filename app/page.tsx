@@ -1,14 +1,16 @@
 import { Header } from '@/components/header'
 import { DecisionList } from '@/components/decision-list'
-import { ForkKnife, TShirt, GameController, BookOpen, Heart, Star } from '@phosphor-icons/react/dist/ssr'
+import { ForkKnife, TShirt, GameController, BookOpen, Heart, Trophy, Handshake, Star } from '@phosphor-icons/react/dist/ssr'
 
 const TAGS = [
-  { icon: ForkKnife,      label: '음식',  color: 'text-orange-400 bg-orange-50 dark:bg-orange-950/40' },
-  { icon: TShirt,         label: '패션',  color: 'text-pink-400   bg-pink-50   dark:bg-pink-950/40' },
-  { icon: GameController, label: '여가',  color: 'text-violet-400 bg-violet-50 dark:bg-violet-950/40' },
-  { icon: BookOpen,       label: '공부',  color: 'text-blue-400   bg-blue-50   dark:bg-blue-950/40' },
-  { icon: Heart,          label: '연애',  color: 'text-rose-400   bg-rose-50   dark:bg-rose-950/40' },
-  { icon: Star,           label: '기타',  color: 'text-slate-400  bg-slate-100 dark:bg-slate-800/60' },
+  { icon: ForkKnife,      label: '음식',   color: 'text-orange-400 bg-orange-50 dark:bg-orange-950/40' },
+  { icon: TShirt,         label: '패션',   color: 'text-pink-400   bg-pink-50   dark:bg-pink-950/40' },
+  { icon: GameController, label: '여가',   color: 'text-violet-400 bg-violet-50 dark:bg-violet-950/40' },
+  { icon: BookOpen,       label: '공부',   color: 'text-blue-400   bg-blue-50   dark:bg-blue-950/40' },
+  { icon: Heart,          label: '연애',   color: 'text-rose-400   bg-rose-50   dark:bg-rose-950/40' },
+  { icon: Trophy,         label: '스포츠', color: 'text-green-400  bg-green-50  dark:bg-green-950/40' },
+  { icon: Handshake,      label: '친구',   color: 'text-amber-400  bg-amber-50  dark:bg-amber-950/40' },
+  { icon: Star,           label: '기타',   color: 'text-slate-400  bg-slate-100 dark:bg-slate-800/60' },
 ]
 
 export default function HomePage() {

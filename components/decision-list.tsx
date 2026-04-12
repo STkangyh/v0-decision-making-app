@@ -8,7 +8,7 @@ import { Empty } from '@/components/ui/empty'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
 import type { Category, Decision } from '@/lib/types'
-import { FileQuestion } from 'lucide-react'
+import { Question } from '@phosphor-icons/react'
 
 interface DecisionWithComments extends Decision {
   comment_count: number
@@ -63,7 +63,7 @@ export function DecisionList() {
 
       {!isLoading && !error && decisions?.length === 0 && (
         <Empty
-          icon={FileQuestion}
+          icon={Question}
           title="아직 결정 요청이 없어요"
           description="첫 번째 결정 요청을 올려보세요!"
         />
