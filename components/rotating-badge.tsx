@@ -1,8 +1,8 @@
 export function RotatingBadge() {
   return (
-    <div className="fixed bottom-6 right-6 z-30 w-[120px] h-[120px] rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center">
+    <div className="fixed bottom-6 right-6 z-0 w-[360px] h-[360px] flex items-center justify-center">
       <svg
-        viewBox="0 0 120 120"
+        viewBox="0 0 360 360"
         className="w-full h-full"
         style={{ animation: 'spin 20s linear infinite' }}
         aria-hidden="true"
@@ -10,13 +10,13 @@ export function RotatingBadge() {
         <defs>
           <path
             id="rotating-badge-circle"
-            d="M 60,60 m -45,0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0"
+            d="M 180,180 m -135,0 a 135,135 0 1,1 270,0 a 135,135 0 1,1 -270,0"
           />
         </defs>
         <text>
           <textPath
             href="#rotating-badge-circle"
-            style={{ fill: "#FF6B00", fontSize: "11px", fontWeight: "bold", letterSpacing: "0.15em" }}
+            style={{ fill: "#FF6B00", fontSize: "22px", fontWeight: "bold", letterSpacing: "0.2em" }}
           >
             LIKELION ANIMAL LEAGUE ✦ LIKELION ANIMAL LEAGUE ✦
           </textPath>
