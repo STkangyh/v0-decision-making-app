@@ -47,7 +47,7 @@ export function Top3Popup() {
       <button
         onClick={() => setOpen(true)}
         className={cn(
-          'fixed bottom-6 right-6 z-40',
+          'fixed bottom-6 right-36 z-40',
           'flex items-center gap-2 rounded-full px-4 py-3',
           'btn-gradient shadow-lg shadow-primary/30',
           'text-white font-bold text-sm',
