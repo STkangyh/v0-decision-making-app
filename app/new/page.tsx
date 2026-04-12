@@ -11,10 +11,11 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionId } from '@/lib/session'
 import { CATEGORIES, CATEGORY_EMOJIS, DEADLINE_OPTIONS, type Category } from '@/lib/types'
 import { checkProfanity } from '@/lib/moderate'
 import { toast } from 'sonner'
-import { ArrowLeft, Sparkles, ShieldAlert } from 'lucide-react'
+import { ArrowLeft, Sparkle, ShieldWarning } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
@@ -62,6 +63,7 @@ export default function NewDecisionPage() {
 
       const supabase = createClient()
       const deadline = new Date(Date.now() + deadlineMinutes * 60 * 1000).toISOString()
+      const authorSessionId = getSessionId()
 
       const { error } = await supabase.from('decisions').insert({
         title: title.trim(),
@@ -70,6 +72,7 @@ export default function NewDecisionPage() {
         option_b: optionB.trim(),
         category,
         deadline,
+        author_session_id: authorSessionId,
       })
 
       if (error) throw error
@@ -92,14 +95,14 @@ export default function NewDecisionPage() {
           href="/"
           className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft weight="bold" className="h-4 w-4" />
           돌아가기
         </Link>
 
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary" />
+              <Sparkle weight="fill" className="h-5 w-5 text-primary" />
               새 결정 요청하기
             </CardTitle>
             <CardDescription>
@@ -112,7 +115,7 @@ export default function NewDecisionPage() {
               {/* 비속어 감지 알림 */}
               {profanityError && (
                 <Alert variant="destructive">
-                  <ShieldAlert className="h-4 w-4" />
+                  <ShieldWarning weight="fill" className="h-4 w-4" />
                   <AlertTitle>부적절한 표현이 감지되었습니다</AlertTitle>
                   <AlertDescription className="mt-1 space-y-1">
                     <p>아래 표현은 커뮤니티 가이드라인에 위반됩니다. 수정 후 다시 시도해 주세요.</p>

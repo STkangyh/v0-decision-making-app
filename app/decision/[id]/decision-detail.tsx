@@ -77,6 +77,13 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [remainingTime, setRemainingTime] = useState<string | null>(null)
   const [isExpired, setIsExpired] = useState(false)
+  const [sessionId, setSessionId] = useState<string>('')
+
+  useEffect(() => {
+    setSessionId(getSessionId())
+  }, [])
+
+  const isAuthor = !!sessionId && decision.author_session_id === sessionId
 
   // Check if deadline has passed
   useEffect(() => {
@@ -345,7 +352,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/30 dark:border-white/10 pt-4">
               <div className="flex flex-wrap gap-2">
-                {!isClosed && (
+                {isAuthor && !isClosed && (
                   <Button
                     variant="outline"
                     size="sm"
@@ -358,31 +365,33 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                   </Button>
                 )}
 
-              <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-                <DialogTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-1.5 text-destructive hover:bg-destructive hover:text-destructive-foreground">
-                    <Trash weight="fill" className="h-4 w-4" />
-                    삭제
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>정말 삭제하시겠어요?</DialogTitle>
-                    <DialogDescription>
-                      이 결정 요청과 모든 투표, 댓글이 삭제됩니다. 이 작업은 되돌릴 수 없습니다.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
-                      취소
-                    </Button>
-                    <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
-                      {isDeleting ? <Spinner className="mr-2 h-4 w-4" /> : null}
-                      삭제
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                {isAuthor && (
+                  <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm" className="gap-1.5 text-destructive hover:bg-destructive hover:text-destructive-foreground">
+                        <Trash weight="fill" className="h-4 w-4" />
+                        삭제
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>정말 삭제하시겠어요?</DialogTitle>
+                        <DialogDescription>
+                          이 결정 요청과 모든 투표, 댓글이 삭제됩니다. 이 작업은 되돌릴 수 없습니다.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+                          취소
+                        </Button>
+                        <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+                          {isDeleting ? <Spinner className="mr-2 h-4 w-4" /> : null}
+                          삭제
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
 
               <ShareButton decisionId={decision.id} title={decision.title} />

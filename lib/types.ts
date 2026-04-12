@@ -9,6 +9,7 @@ export interface Decision {
   votes_b: number
   is_closed: boolean
   deadline: string | null
+  author_session_id: string | null
   created_at: string
   updated_at: string
 }
