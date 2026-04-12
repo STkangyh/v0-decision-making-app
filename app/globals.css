@@ -28,9 +28,6 @@
   --destructive-foreground: oklch(0.577 0.245 27.325);
   --radius: 0.95rem;
 
-  --blob-a:    oklch(0.90 0.07 85  / 0.30);
-  --blob-b:    oklch(0.92 0.05 65  / 0.22);
-  --dot-color: oklch(0.78 0.07 80  / 0.20);
 }
 
 /* ─────────────────────────────────────────
@@ -96,12 +93,6 @@
 
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(ellipse at 15% 40%,  var(--blob-a) 0%, transparent 55%),
-      radial-gradient(ellipse at 85% 15%,  var(--blob-b) 0%, transparent 55%),
-      radial-gradient(ellipse at 50% 90%,  var(--blob-a) 0%, transparent 45%),
-      radial-gradient(var(--dot-color) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 100% 100%, 22px 22px;
     transition: background-color 0.4s ease, color 0.3s ease;
   }
 }
