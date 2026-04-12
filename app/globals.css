@@ -4,33 +4,33 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ─────────────────────────────────────────
-   LIGHT MODE — 연한 오렌지 테마
+   LIGHT MODE — 연한 노란색 테마
 ───────────────────────────────────────── */
 :root {
   --primary:            oklch(0.67 0.20 45);    /* 브랜드 오렌지 */
   --primary-foreground: oklch(0.99 0   0);
   --accent:             oklch(0.72 0.16 55);    /* 따뜻한 앰버 */
   --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.975 0.030 40);  /* 연한 오렌지 */
-  --foreground:         oklch(0.18  0.03 45);
+  --background:         oklch(0.986 0.018 85);  /* 아주 연한 노란색 */
+  --foreground:         oklch(0.18  0.03 50);
   --card:               oklch(1    0    0);
-  --card-foreground:    oklch(0.18  0.03 45);
+  --card-foreground:    oklch(0.18  0.03 50);
   --popover:            oklch(1    0    0);
-  --popover-foreground: oklch(0.18  0.03 45);
-  --secondary:          oklch(0.94  0.04 45);
-  --secondary-foreground: oklch(0.42 0.12 45);
-  --muted:              oklch(0.95  0.025 45);
-  --muted-foreground:   oklch(0.54  0.06 45);
-  --border:             oklch(0.88  0.05 45);
-  --input:              oklch(0.90  0.04 45);
+  --popover-foreground: oklch(0.18  0.03 50);
+  --secondary:          oklch(0.92  0.05 80);
+  --secondary-foreground: oklch(0.38 0.12 50);
+  --muted:              oklch(0.93  0.04 80);
+  --muted-foreground:   oklch(0.50  0.07 55);
+  --border:             oklch(0.84  0.07 70);
+  --input:              oklch(0.88  0.05 75);
   --ring:               oklch(0.67  0.20 45);
   --destructive:        oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
   --radius: 0.95rem;
 
-  --blob-a:    oklch(0.88 0.08 40  / 0.28);
-  --blob-b:    oklch(0.91 0.06 55  / 0.20);
-  --dot-color: oklch(0.80 0.07 45  / 0.22);
+  --blob-a:    oklch(0.90 0.07 85  / 0.30);
+  --blob-b:    oklch(0.92 0.05 65  / 0.22);
+  --dot-color: oklch(0.78 0.07 80  / 0.20);
 }
 
 /* ─────────────────────────────────────────

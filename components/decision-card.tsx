@@ -187,7 +187,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
                 ? 'border-primary bg-primary/5 shadow-sm shadow-primary/10'
                 : isClosed && localVotesA >= localVotesB && localVotesA > 0
                   ? 'border-primary/40 bg-primary/3'
-                  : 'border-border/60 bg-slate-50/50 hover:border-primary/40 hover:bg-primary/3',
+                  : 'border-border bg-white hover:border-primary/60 hover:bg-orange-50/60',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -219,7 +219,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
                 ? 'border-accent bg-accent/5 shadow-sm shadow-accent/10'
                 : isClosed && localVotesB > localVotesA
                   ? 'border-accent/40 bg-accent/3'
-                  : 'border-border/60 bg-slate-50/50 hover:border-accent/40 hover:bg-accent/3',
+                  : 'border-border bg-white hover:border-accent/60 hover:bg-amber-50/60',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >

@@ -334,7 +334,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                     ? 'border-primary bg-primary/5 shadow-md shadow-primary/10'
                     : isClosed && winningOption === 'A'
                       ? 'border-primary/50 bg-primary/3'
-                      : 'border-border/60 bg-slate-50/50 hover:border-primary/50 hover:bg-primary/3',
+                      : 'border-border bg-white hover:border-primary/60 hover:bg-orange-50/60',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -374,7 +374,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                     ? 'border-accent bg-accent/5 shadow-md shadow-accent/10'
                     : isClosed && winningOption === 'B'
                       ? 'border-accent/50 bg-accent/3'
-                      : 'border-border/60 bg-slate-50/50 hover:border-accent/50 hover:bg-accent/3',
+                      : 'border-border bg-white hover:border-accent/60 hover:bg-amber-50/60',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >

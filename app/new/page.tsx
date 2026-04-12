@@ -227,7 +227,7 @@ export default function NewDecisionPage() {
                             'rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-150',
                             category === cat
                               ? 'border-orange-400 bg-orange-500 text-white shadow-sm'
-                              : 'border-border bg-muted/30 text-muted-foreground hover:border-orange-300 hover:text-foreground'
+                              : 'border-border bg-white text-foreground hover:border-orange-400 hover:bg-orange-50'
                           )}
                         >
                           {CATEGORY_EMOJIS[cat]} {cat}
@@ -250,7 +250,7 @@ export default function NewDecisionPage() {
                               'rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-150',
                               deadlineMinutes === option.value
                                 ? 'border-orange-400 bg-orange-500 text-white shadow-sm'
-                                : 'border-border bg-muted/30 text-muted-foreground hover:border-orange-300 hover:text-foreground'
+                                : 'border-border bg-white text-foreground hover:border-orange-400 hover:bg-orange-50'
                             )}
                           >
                             {option.label}
