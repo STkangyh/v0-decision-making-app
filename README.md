@@ -51,6 +51,8 @@ pnpm                        — 패키지 매니저
 
 ## 아키텍처 개요
 
+![아키텍처 다이어그램](docs/architecture.png)
+
 ```mermaid
 flowchart TD
     subgraph Browser["🖥️  Browser"]
