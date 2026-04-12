@@ -7,7 +7,7 @@
    LIGHT MODE — 연한 노란색 테마
 ───────────────────────────────────────── */
 :root {
-  --primary:            oklch(0.67 0.20 45);    /* 브랜드 오렌지 */
+  --primary:            oklch(0.68 0.21 40);    /* #FF7700 */
   --primary-foreground: oklch(0.99 0   0);
   --accent:             oklch(0.72 0.16 55);    /* 따뜻한 앰버 */
   --accent-foreground:  oklch(0.99 0   0);
