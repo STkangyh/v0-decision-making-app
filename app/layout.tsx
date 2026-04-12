@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
-import { SeasonProvider } from '@/lib/season-context'
 import { AuthProvider } from '@/components/auth-provider'
 import { Top3Popup } from '@/components/top3-popup'
 import { RotatingBadge } from '@/components/rotating-badge'
@@ -45,13 +44,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style={{ fontFamily: "'Pretendard', sans-serif" }}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
-          <SeasonProvider>
-<AuthProvider>
-              {children}
-              <Top3Popup />
-            </AuthProvider>
-            <Toaster richColors position="top-center" />
-          </SeasonProvider>
+          <AuthProvider>
+            {children}
+            <Top3Popup />
+          </AuthProvider>
+          <Toaster richColors position="top-center" />
         </ThemeProvider>
         <RotatingBadge />
         {process.env.NODE_ENV === 'production' && <Analytics />}
