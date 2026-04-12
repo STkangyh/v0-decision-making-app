@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
   ChatCircle, UsersThree, CheckCircle, Clock, Timer,
   ForkKnife, TShirt, GameController, BookOpen, Heart, Trophy, Handshake, Star,
-  ThumbsUp, BookmarkSimple,
+  ThumbsUp, BookmarkSimple, ArrowRight,
 } from '@phosphor-icons/react'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
@@ -235,6 +235,18 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
           </button>
         </div>
       </CardContent>
+
+      {/* 상세 페이지 이동 버튼 */}
+      <div className="px-4 pb-3">
+        <Link
+          href={`/decision/${decision.id}`}
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-primary/20 bg-primary/5 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary/10 hover:border-primary/40"
+        >
+          <ChatCircle weight="fill" className="h-4 w-4" />
+          의견 보기 · 상세 페이지
+          <ArrowRight weight="bold" className="h-3.5 w-3.5 ml-0.5" />
+        </Link>
+      </div>
 
       <CardFooter className="flex items-center justify-between border-t border-white/30 dark:border-white/10 bg-white/20 dark:bg-white/5 px-4 py-2.5 text-xs text-muted-foreground">
         <div className="flex items-center gap-3">
