@@ -1,5 +1,6 @@
 import { Header } from '@/components/header'
 import { DecisionList } from '@/components/decision-list'
+import { HeroIcon } from '@/components/hero-icon'
 import { ForkKnife, TShirt, GameController, BookOpen, Heart, Trophy, Handshake, Star } from '@phosphor-icons/react/dist/ssr'
 
 const TAGS = [
@@ -23,9 +24,7 @@ export default function HomePage() {
         <div className="glass-card mb-8 rounded-3xl px-6 py-7">
           <div className="flex items-start gap-5">
             <div className="hidden sm:flex flex-col items-center gap-1.5">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl btn-gradient text-3xl shadow-lg">
-                🎯
-              </div>
+              <HeroIcon />
             </div>
             <div className="flex-1">
               <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
