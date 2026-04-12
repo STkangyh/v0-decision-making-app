@@ -11,7 +11,7 @@
   --primary-foreground: oklch(0.99 0   0);
   --accent:             oklch(0.72 0.16 55);    /* 따뜻한 앰버 */
   --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.987 0.017 83);  /* #FFFBF3 */
+  --background:         oklch(1 0 0);  /* #FFFFFF */
   --foreground:         oklch(0.18  0.03 50);
   --card:               oklch(1    0    0);
   --card-foreground:    oklch(0.18  0.03 50);
