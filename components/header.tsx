@@ -1,9 +1,37 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
+import { useState } from 'react'
 import { PlusCircle, Smiley, SignOut, User } from '@phosphor-icons/react'
 import { ThemeSelector } from './theme-selector'
 import { useAuth } from './auth-provider'
+
+function LogoMark() {
+  const [imgError, setImgError] = useState(false)
+
+  if (!imgError) {
+    return (
+      <div className="flex h-10 w-10 items-center justify-center rounded-2xl overflow-hidden shadow-md group-hover:scale-105 transition-transform">
+        <Image
+          src="/images/logo.png"
+          alt="로고"
+          width={40}
+          height={40}
+          className="h-full w-full object-cover"
+          onError={() => setImgError(true)}
+          priority
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex h-10 w-10 items-center justify-center rounded-2xl btn-gradient text-xl shadow-md group-hover:scale-105 transition-transform">
+      <Smiley weight="fill" className="text-white" />
+    </div>
+  )
+}
 
 export function Header() {
   const { user, logout } = useAuth()
@@ -14,9 +42,7 @@ export function Header() {
 
         {/* 로고 */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl btn-gradient text-xl shadow-md group-hover:scale-105 transition-transform">
-            <Smiley weight="fill" className="text-white" />
-          </div>
+          <LogoMark />
           <div className="flex flex-col leading-tight">
             <span className="text-[15px] font-extrabold gradient-text tracking-tight">대신 결정해 줘!</span>
             <span className="text-[10px] text-muted-foreground font-medium">딴짓하는 중... ✨</span>
