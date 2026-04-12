@@ -17,13 +17,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
-import { CATEGORIES, CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
+import { CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import {
@@ -31,13 +28,29 @@ import {
   CheckCircle2,
   Users,
   Clock,
-  Edit,
   Trash2,
   Lock,
+  Timer,
 } from 'lucide-react'
 
 interface DecisionDetailProps {
   decision: Decision
+}
+
+function formatRemainingTime(ms: number): string {
+  const seconds = Math.floor(ms / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+
+  if (hours > 0) {
+    const remainingMinutes = minutes % 60
+    return `${hours}시간 ${remainingMinutes}분 남음`
+  }
+  if (minutes > 0) {
+    const remainingSeconds = seconds % 60
+    return `${minutes}분 ${remainingSeconds}초 남음`
+  }
+  return `${seconds}초 남음`
 }
 
 export function DecisionDetail({ decision: initialDecision }: DecisionDetailProps) {
@@ -48,15 +61,33 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   const [isDeleting, setIsDeleting] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-  const [showEditDialog, setShowEditDialog] = useState(false)
+  const [remainingTime, setRemainingTime] = useState<string | null>(null)
+  const [isExpired, setIsExpired] = useState(false)
 
-  // Edit form state
-  const [editTitle, setEditTitle] = useState(decision.title)
-  const [editDescription, setEditDescription] = useState(decision.description || '')
-  const [editOptionA, setEditOptionA] = useState(decision.option_a)
-  const [editOptionB, setEditOptionB] = useState(decision.option_b)
-  const [editCategory, setEditCategory] = useState<Category>(decision.category as Category)
-  const [isUpdating, setIsUpdating] = useState(false)
+  // Check if deadline has passed
+  useEffect(() => {
+    if (!decision.deadline) return
+
+    const checkDeadline = () => {
+      const now = new Date()
+      const deadline = new Date(decision.deadline!)
+      const diff = deadline.getTime() - now.getTime()
+
+      if (diff <= 0) {
+        setIsExpired(true)
+        setRemainingTime(null)
+      } else {
+        setIsExpired(false)
+        setRemainingTime(formatRemainingTime(diff))
+      }
+    }
+
+    checkDeadline()
+    const interval = setInterval(checkDeadline, 1000)
+    return () => clearInterval(interval)
+  }, [decision.deadline])
+
+  const isClosed = decision.is_closed || isExpired
 
   const totalVotes = decision.votes_a + decision.votes_b
   const percentA = totalVotes > 0 ? Math.round((decision.votes_a / totalVotes) * 100) : 50
@@ -85,7 +116,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   }, [decision.id])
 
   const handleVote = async (option: 'A' | 'B') => {
-    if (votedOption || decision.is_closed || isVoting) return
+    if (votedOption || isClosed || isVoting) return
 
     setIsVoting(true)
     const sessionId = getSessionId()
@@ -123,7 +154,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   }
 
   const handleClose = async () => {
-    if (decision.is_closed || isClosing) return
+    if (isClosed || isClosing) return
 
     setIsClosing(true)
 
@@ -167,44 +198,6 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
     }
   }
 
-  const handleUpdate = async () => {
-    if (!editTitle.trim() || !editOptionA.trim() || !editOptionB.trim()) return
-
-    setIsUpdating(true)
-
-    try {
-      const supabase = createClient()
-
-      const { error } = await supabase
-        .from('decisions')
-        .update({
-          title: editTitle.trim(),
-          description: editDescription.trim() || null,
-          option_a: editOptionA.trim(),
-          option_b: editOptionB.trim(),
-          category: editCategory,
-        })
-        .eq('id', decision.id)
-
-      if (error) throw error
-
-      setDecision((prev) => ({
-        ...prev,
-        title: editTitle.trim(),
-        description: editDescription.trim() || null,
-        option_a: editOptionA.trim(),
-        option_b: editOptionB.trim(),
-        category: editCategory,
-      }))
-      setShowEditDialog(false)
-      toast.success('수정되었습니다!')
-    } catch {
-      toast.error('수정에 실패했습니다.')
-    } finally {
-      setIsUpdating(false)
-    }
-  }
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -225,10 +218,16 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                   <Badge variant="secondary" className="gap-1">
                     {CATEGORY_EMOJIS[decision.category as Category]} {decision.category}
                   </Badge>
-                  {decision.is_closed && (
+                  {isClosed && (
                     <Badge variant="outline" className="gap-1 text-muted-foreground">
                       <CheckCircle2 className="h-3 w-3" />
                       마감됨
+                    </Badge>
+                  )}
+                  {!isClosed && remainingTime && (
+                    <Badge variant="secondary" className="gap-1">
+                      <Timer className="h-3 w-3" />
+                      {remainingTime}
                     </Badge>
                   )}
                 </div>
@@ -258,18 +257,18 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
             <div className="space-y-3">
               <button
                 onClick={() => handleVote('A')}
-                disabled={!!votedOption || decision.is_closed || isVoting}
+                disabled={!!votedOption || isClosed || isVoting}
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all',
                   votedOption === 'A'
                     ? 'border-primary bg-primary/5'
-                    : decision.is_closed && winningOption === 'A'
+                    : isClosed && winningOption === 'A'
                       ? 'border-primary bg-primary/5'
                       : 'border-border hover:border-primary/50',
-                  (votedOption || decision.is_closed) && 'cursor-default'
+                  (votedOption || isClosed) && 'cursor-default'
                 )}
               >
-                {(votedOption || decision.is_closed) && (
+                {(votedOption || isClosed) && (
                   <div
                     className="absolute inset-y-0 left-0 bg-primary/15 transition-all duration-700"
                     style={{ width: `${percentA}%` }}
@@ -277,11 +276,11 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-lg font-semibold">{decision.option_a}</span>
-                  {(votedOption || decision.is_closed) && (
+                  {(votedOption || isClosed) && (
                     <span className="text-xl font-bold text-primary">{percentA}%</span>
                   )}
                 </div>
-                {(votedOption || decision.is_closed) && (
+                {(votedOption || isClosed) && (
                   <p className="relative mt-1 text-sm text-muted-foreground">
                     {decision.votes_a}표
                   </p>
@@ -292,18 +291,18 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
 
               <button
                 onClick={() => handleVote('B')}
-                disabled={!!votedOption || decision.is_closed || isVoting}
+                disabled={!!votedOption || isClosed || isVoting}
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all',
                   votedOption === 'B'
                     ? 'border-accent bg-accent/10'
-                    : decision.is_closed && winningOption === 'B'
+                    : isClosed && winningOption === 'B'
                       ? 'border-accent bg-accent/10'
                       : 'border-border hover:border-accent/50',
-                  (votedOption || decision.is_closed) && 'cursor-default'
+                  (votedOption || isClosed) && 'cursor-default'
                 )}
               >
-                {(votedOption || decision.is_closed) && (
+                {(votedOption || isClosed) && (
                   <div
                     className="absolute inset-y-0 left-0 bg-accent/25 transition-all duration-700"
                     style={{ width: `${percentB}%` }}
@@ -311,11 +310,11 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-lg font-semibold">{decision.option_b}</span>
-                  {(votedOption || decision.is_closed) && (
+                  {(votedOption || isClosed) && (
                     <span className="text-xl font-bold text-accent-foreground">{percentB}%</span>
                   )}
                 </div>
-                {(votedOption || decision.is_closed) && (
+                {(votedOption || isClosed) && (
                   <p className="relative mt-1 text-sm text-muted-foreground">
                     {decision.votes_b}표
                   </p>
@@ -325,88 +324,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-2 border-t pt-4">
-              <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-                <DialogTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-1.5">
-                    <Edit className="h-4 w-4" />
-                    수정
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle>결정 요청 수정</DialogTitle>
-                    <DialogDescription>내용을 수정해 주세요</DialogDescription>
-                  </DialogHeader>
-                  <FieldGroup className="py-4">
-                    <Field>
-                      <FieldLabel>제목</FieldLabel>
-                      <Input
-                        value={editTitle}
-                        onChange={(e) => setEditTitle(e.target.value)}
-                        maxLength={100}
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel>설명 (선택)</FieldLabel>
-                      <Textarea
-                        value={editDescription}
-                        onChange={(e) => setEditDescription(e.target.value)}
-                        rows={3}
-                        maxLength={500}
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel>카테고리</FieldLabel>
-                      <div className="flex flex-wrap gap-2">
-                        {CATEGORIES.map((cat) => (
-                          <button
-                            key={cat}
-                            type="button"
-                            onClick={() => setEditCategory(cat)}
-                            className={cn(
-                              'rounded-full border px-3 py-1.5 text-sm transition-colors',
-                              editCategory === cat
-                                ? 'border-primary bg-primary text-primary-foreground'
-                                : 'border-border bg-background hover:border-primary/50'
-                            )}
-                          >
-                            {CATEGORY_EMOJIS[cat]} {cat}
-                          </button>
-                        ))}
-                      </div>
-                    </Field>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <Field>
-                        <FieldLabel>선택지 A</FieldLabel>
-                        <Input
-                          value={editOptionA}
-                          onChange={(e) => setEditOptionA(e.target.value)}
-                          maxLength={100}
-                        />
-                      </Field>
-                      <Field>
-                        <FieldLabel>선택지 B</FieldLabel>
-                        <Input
-                          value={editOptionB}
-                          onChange={(e) => setEditOptionB(e.target.value)}
-                          maxLength={100}
-                        />
-                      </Field>
-                    </div>
-                  </FieldGroup>
-                  <DialogFooter>
-                    <Button variant="outline" onClick={() => setShowEditDialog(false)}>
-                      취소
-                    </Button>
-                    <Button onClick={handleUpdate} disabled={isUpdating}>
-                      {isUpdating ? <Spinner className="mr-2 h-4 w-4" /> : null}
-                      저장
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-
-              {!decision.is_closed && (
+              {!isClosed && (
                 <Button
                   variant="outline"
                   size="sm"

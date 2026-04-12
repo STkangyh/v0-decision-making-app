@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { MessageCircle, Users, CheckCircle2, Clock } from 'lucide-react'
+import { MessageCircle, Users, CheckCircle2, Clock, Timer } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
 import { CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
@@ -22,6 +22,33 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const [localVotesA, setLocalVotesA] = useState(decision.votes_a)
   const [localVotesB, setLocalVotesB] = useState(decision.votes_b)
   const [isVoting, setIsVoting] = useState(false)
+  const [remainingTime, setRemainingTime] = useState<string | null>(null)
+  const [isExpired, setIsExpired] = useState(false)
+
+  // Check if deadline has passed
+  useEffect(() => {
+    if (!decision.deadline) return
+
+    const checkDeadline = () => {
+      const now = new Date()
+      const deadline = new Date(decision.deadline!)
+      const diff = deadline.getTime() - now.getTime()
+
+      if (diff <= 0) {
+        setIsExpired(true)
+        setRemainingTime(null)
+      } else {
+        setIsExpired(false)
+        setRemainingTime(formatRemainingTime(diff))
+      }
+    }
+
+    checkDeadline()
+    const interval = setInterval(checkDeadline, 1000)
+    return () => clearInterval(interval)
+  }, [decision.deadline])
+
+  const isClosed = decision.is_closed || isExpired
 
   const totalVotes = localVotesA + localVotesB
   const percentA = totalVotes > 0 ? Math.round((localVotesA / totalVotes) * 100) : 50
@@ -49,7 +76,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   }, [decision.id])
 
   const handleVote = async (option: 'A' | 'B') => {
-    if (votedOption || decision.is_closed || isVoting) return
+    if (votedOption || isClosed || isVoting) return
 
     setIsVoting(true)
     const sessionId = getSessionId()
@@ -98,10 +125,16 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
               <Badge variant="secondary" className="gap-1 text-xs">
                 {CATEGORY_EMOJIS[decision.category as Category]} {decision.category}
               </Badge>
-              {decision.is_closed && (
+              {isClosed && (
                 <Badge variant="outline" className="gap-1 text-xs text-muted-foreground">
                   <CheckCircle2 className="h-3 w-3" />
                   마감됨
+                </Badge>
+              )}
+              {!isClosed && remainingTime && (
+                <Badge variant="secondary" className="gap-1 text-xs">
+                  <Timer className="h-3 w-3" />
+                  {remainingTime}
                 </Badge>
               )}
             </div>
@@ -123,16 +156,16 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
         <div className="space-y-2">
           <button
             onClick={() => handleVote('A')}
-            disabled={!!votedOption || decision.is_closed || isVoting}
+            disabled={!!votedOption || isClosed || isVoting}
             className={cn(
               'relative w-full overflow-hidden rounded-lg border p-3 text-left transition-all',
               votedOption === 'A'
                 ? 'border-primary bg-primary/5'
                 : 'border-border hover:border-primary/50',
-              (votedOption || decision.is_closed) && 'cursor-default'
+              (votedOption || isClosed) && 'cursor-default'
             )}
           >
-            {(votedOption || decision.is_closed) && (
+            {(votedOption || isClosed) && (
               <div
                 className="absolute inset-y-0 left-0 bg-primary/10 transition-all duration-500"
                 style={{ width: `${percentA}%` }}
@@ -140,7 +173,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             )}
             <div className="relative flex items-center justify-between">
               <span className="font-medium">{decision.option_a}</span>
-              {(votedOption || decision.is_closed) && (
+              {(votedOption || isClosed) && (
                 <span className="text-sm font-semibold text-primary">{percentA}%</span>
               )}
             </div>
@@ -148,16 +181,16 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
 
           <button
             onClick={() => handleVote('B')}
-            disabled={!!votedOption || decision.is_closed || isVoting}
+            disabled={!!votedOption || isClosed || isVoting}
             className={cn(
               'relative w-full overflow-hidden rounded-lg border p-3 text-left transition-all',
               votedOption === 'B'
                 ? 'border-accent bg-accent/10'
                 : 'border-border hover:border-accent/50',
-              (votedOption || decision.is_closed) && 'cursor-default'
+              (votedOption || isClosed) && 'cursor-default'
             )}
           >
-            {(votedOption || decision.is_closed) && (
+            {(votedOption || isClosed) && (
               <div
                 className="absolute inset-y-0 left-0 bg-accent/20 transition-all duration-500"
                 style={{ width: `${percentB}%` }}
@@ -165,7 +198,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             )}
             <div className="relative flex items-center justify-between">
               <span className="font-medium">{decision.option_b}</span>
-              {(votedOption || decision.is_closed) && (
+              {(votedOption || isClosed) && (
                 <span className="text-sm font-semibold text-accent-foreground">{percentB}%</span>
               )}
             </div>
@@ -205,4 +238,20 @@ function getTimeAgo(date: Date): string {
   if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}시간 전`
   if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}일 전`
   return date.toLocaleDateString('ko-KR')
+}
+
+function formatRemainingTime(ms: number): string {
+  const seconds = Math.floor(ms / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+
+  if (hours > 0) {
+    const remainingMinutes = minutes % 60
+    return `${hours}시간 ${remainingMinutes}분 남음`
+  }
+  if (minutes > 0) {
+    const remainingSeconds = seconds % 60
+    return `${minutes}분 ${remainingSeconds}초 남음`
+  }
+  return `${seconds}초 남음`
 }
