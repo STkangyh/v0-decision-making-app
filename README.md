@@ -51,6 +51,39 @@ pnpm                        — 패키지 매니저
 
 ## 아키텍처 개요
 
+```mermaid
+flowchart TD
+    subgraph Browser["🖥️  Browser"]
+        LS[("localStorage\n익명 UUID · 로그인 세션")]
+        CC["Client Components\nSWR 폴링 · 상태 관리 · 낙관적 업데이트"]
+        LS <-->|세션 ID 읽기 / 쓰기| CC
+    end
+
+    subgraph Next["⚡  Next.js 16.2  —  Vercel"]
+        SC["Server Components\nSSR fetch · 초기 HTML"]
+        API["API Routes\n/api/auth/login\n/api/moderate"]
+        MW["Middleware\n세션 갱신"]
+    end
+
+    subgraph DB["🗄️  Supabase  (PostgreSQL + RLS)"]
+        T[("decisions · votes\ncomments · users\nlikes · bookmarks")]
+    end
+
+    subgraph Ext["🌐  External Services"]
+        PA["Profanity API\n비속어 필터 · fail-open"]
+        VA["Vercel Analytics\n트래픽 모니터링"]
+    end
+
+    Browser -->|HTTP| Next
+    CC -->|Supabase JS SDK| T
+    SC -->|Supabase Server Client| T
+    API -->|Supabase Server Client| T
+    API -->|POST /api/v1/filter| PA
+    Next -.->|프로덕션 only| VA
+```
+
+### 레이어별 역할
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        Browser                              │
