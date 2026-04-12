@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionId } from '@/lib/session'
 import { CATEGORIES, CATEGORY_EMOJIS, DEADLINE_OPTIONS, type Category } from '@/lib/types'
 import { toast } from 'sonner'
 import { ArrowLeft, Sparkles } from 'lucide-react'
@@ -45,6 +46,7 @@ export default function NewDecisionPage() {
         option_b: optionB.trim(),
         category,
         deadline,
+        author_session_id: getSessionId(),
       })
 
       if (error) throw error

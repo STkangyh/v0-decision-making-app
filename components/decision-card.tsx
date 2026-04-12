@@ -201,22 +201,22 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-lg border p-3 text-left transition-[border-color,box-shadow,background-color] duration-300 ease-out',
               votedOption === 'B'
-                ? 'border-accent bg-accent/10'
-                : 'border-border hover:border-accent/50',
+                ? 'border-primary bg-primary/5'
+                : 'border-border hover:border-primary/50',
               (votedOption || isClosed) && 'cursor-default'
             )}
           >
             {(votedOption || isClosed) && (
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-y-0 left-0 bg-accent/20 transition-[width] duration-500 ease-out motion-reduce:transition-none"
+                className="pointer-events-none absolute inset-y-0 left-0 bg-primary/10 transition-[width] duration-500 ease-out motion-reduce:transition-none"
                 style={{ width: `${percentB}%` }}
               />
             )}
             <div className="relative z-[1] flex items-center justify-between">
               <span className="font-medium">{decision.option_b}</span>
               {(votedOption || isClosed) && (
-                <span className="text-sm font-semibold text-accent-foreground transition-opacity duration-200">
+                <span className="text-sm font-semibold text-primary transition-opacity duration-200">
                   {percentB}%
                 </span>
               )}
