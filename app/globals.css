@@ -155,10 +155,12 @@
 
 /* 투표 바 */
 .vote-a-bar {
-  background: linear-gradient(90deg, oklch(from var(--primary) l c h / 0.20), oklch(from var(--primary) l c h / 0.06));
+  background: #FFAA00;
+  opacity: 0.15;
 }
 .vote-b-bar {
-  background: linear-gradient(90deg, oklch(from var(--accent) l c h / 0.20), oklch(from var(--accent) l c h / 0.06));
+  background: #FFAA00;
+  opacity: 0.15;
 }
 
 /* 카드 호버 글로우 */

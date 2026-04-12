@@ -311,11 +311,11 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
 
             <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">
-                <UsersThree weight="fill" className="h-4 w-4 text-primary/60" />
+                <UsersThree weight="fill" className="h-4 w-4 text-[#FFAA00]" />
                 <span className="font-medium text-foreground">{totalVotes}명</span> 참여
               </span>
               <span className="flex items-center gap-1">
-                <Clock weight="fill" className="h-4 w-4 text-primary/60" />
+                <Clock weight="fill" className="h-4 w-4 text-[#FFAA00]" />
                 {new Date(decision.created_at).toLocaleDateString('ko-KR')}
               </span>
             </div>
