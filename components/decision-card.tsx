@@ -17,14 +17,14 @@ import { cn } from '@/lib/utils'
 import { ShareButton } from '@/components/share-button'
 
 const CATEGORY_META: Record<Category, { color: string; icon: React.ElementType }> = {
-  '음식': { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300', icon: ForkKnife },
-  '패션': { color: 'bg-pink-100   text-pink-600   dark:bg-pink-900   dark:text-pink-300',   icon: TShirt },
-  '여가': { color: 'bg-violet-100 text-violet-600 dark:bg-violet-900 dark:text-violet-300', icon: GameController },
-  '공부': { color: 'bg-blue-100   text-blue-600   dark:bg-blue-900   dark:text-blue-300',   icon: BookOpen },
-  '연애': { color: 'bg-rose-100   text-rose-600   dark:bg-rose-900   dark:text-rose-300',   icon: Heart },
-  '스포츠': { color: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300',   icon: Trophy },
-  '친구': { color: 'bg-amber-100  text-amber-600  dark:bg-amber-900  dark:text-amber-300',  icon: Handshake },
-  '기타': { color: 'bg-slate-100  text-slate-600  dark:bg-slate-800  dark:text-slate-300',  icon: Star },
+  '음식':  { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300', icon: ForkKnife },
+  '패션':  { color: 'bg-orange-50  text-orange-500 dark:bg-orange-900 dark:text-orange-300', icon: TShirt },
+  '여가':  { color: 'bg-amber-100  text-amber-600  dark:bg-amber-900  dark:text-amber-300',  icon: GameController },
+  '공부':  { color: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-200', icon: BookOpen },
+  '연애':  { color: 'bg-amber-50   text-amber-600  dark:bg-amber-900  dark:text-amber-300',  icon: Heart },
+  '스포츠':{ color: 'bg-orange-200 text-orange-700 dark:bg-orange-900 dark:text-orange-300', icon: Trophy },
+  '친구':  { color: 'bg-amber-100  text-amber-700  dark:bg-amber-900  dark:text-amber-300',  icon: Handshake },
+  '기타':  { color: 'bg-orange-50  text-orange-400 dark:bg-orange-900 dark:text-orange-300', icon: Star },
 }
 
 function CategoryBadge({ category }: { category: Category }) {
