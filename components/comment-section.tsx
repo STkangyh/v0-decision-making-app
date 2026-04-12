@@ -8,6 +8,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { Empty } from '@/components/ui/empty'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
+import { checkProfanity } from '@/lib/moderate'
 import { toast } from 'sonner'
 import { MessageCircle, Send, Trash2 } from 'lucide-react'
 import type { Comment } from '@/lib/types'
@@ -46,6 +47,13 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
     setIsSubmitting(true)
 
     try {
+      // 비속어 필터링
+      const { blocked, words } = await checkProfanity(content.trim())
+      if (blocked) {
+        toast.error(`부적절한 표현이 포함되어 있습니다: ${words.join(', ')}`)
+        return
+      }
+
       const supabase = createClient()
 
       const { error } = await supabase.from('comments').insert({

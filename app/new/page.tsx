@@ -11,6 +11,7 @@ import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
 import { CATEGORIES, CATEGORY_EMOJIS, DEADLINE_OPTIONS, type Category } from '@/lib/types'
+import { checkProfanity } from '@/lib/moderate'
 import { toast } from 'sonner'
 import { ArrowLeft, Sparkles } from 'lucide-react'
 import Link from 'next/link'
@@ -35,6 +36,15 @@ export default function NewDecisionPage() {
     setIsSubmitting(true)
 
     try {
+      // 비속어 필터링: 제목 + 설명 + 선택지 통합 검사
+      const combined = [title, description, optionA, optionB].filter(Boolean).join(' ')
+      const { blocked, words } = await checkProfanity(combined)
+
+      if (blocked) {
+        toast.error(`부적절한 표현이 포함되어 있습니다: ${words.join(', ')}`)
+        return
+      }
+
       const supabase = createClient()
       const deadline = new Date(Date.now() + deadlineMinutes * 60 * 1000).toISOString()
 
