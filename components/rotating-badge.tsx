@@ -3,7 +3,8 @@ export function RotatingBadge() {
     <div className="fixed bottom-6 right-6 z-30 w-[120px] h-[120px] rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center">
       <svg
         viewBox="0 0 120 120"
-        className="animate-spin-slow w-full h-full"
+        className="w-full h-full"
+        style={{ animation: 'spin 20s linear infinite' }}
         aria-hidden="true"
       >
         <defs>

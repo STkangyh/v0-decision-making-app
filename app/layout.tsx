@@ -4,7 +4,6 @@ import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SeasonProvider } from '@/lib/season-context'
 import { AuthProvider } from '@/components/auth-provider'
-import { BackgroundImage } from '@/components/background-image'
 import { Top3Popup } from '@/components/top3-popup'
 import { RotatingBadge } from '@/components/rotating-badge'
 import { Toaster } from 'sonner'
@@ -47,8 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
           <SeasonProvider>
-            <BackgroundImage />
-            <AuthProvider>
+<AuthProvider>
               {children}
               <Top3Popup />
             </AuthProvider>
