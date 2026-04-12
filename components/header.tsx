@@ -12,22 +12,20 @@ function LogoMark() {
 
   if (!imgError) {
     return (
-      <div className="flex h-10 w-10 items-center justify-center rounded-2xl overflow-hidden shadow-md group-hover:scale-105 transition-transform">
-        <Image
-          src="/images/logo.png"
-          alt="로고"
-          width={40}
-          height={40}
-          className="h-full w-full object-cover"
-          onError={() => setImgError(true)}
-          priority
-        />
-      </div>
+      <Image
+        src="/images/lion.png"
+        alt="사자 로고"
+        width={44}
+        height={44}
+        className="h-11 w-11 object-contain group-hover:scale-110 transition-transform drop-shadow-sm"
+        onError={() => setImgError(true)}
+        priority
+      />
     )
   }
 
   return (
-    <div className="flex h-10 w-10 items-center justify-center rounded-2xl btn-gradient text-xl shadow-md group-hover:scale-105 transition-transform">
+    <div className="flex h-11 w-11 items-center justify-center rounded-2xl btn-gradient text-xl shadow-md group-hover:scale-105 transition-transform">
       <Smiley weight="fill" className="text-white" />
     </div>
   )

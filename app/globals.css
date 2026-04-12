@@ -11,7 +11,7 @@
   --primary-foreground: oklch(0.99 0   0);
   --accent:             oklch(0.72 0.16 55);    /* 따뜻한 앰버 */
   --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.994 0.010 85);  /* 흰색에 가까운 연한 노란빛 */
+  --background:         oklch(0.998 0.005 85);  /* 거의 흰색, 극히 연한 노란빛 */
   --foreground:         oklch(0.18  0.03 50);
   --card:               oklch(1    0    0);
   --card-foreground:    oklch(0.18  0.03 50);
