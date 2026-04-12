@@ -10,7 +10,7 @@ import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
 import { checkProfanity } from '@/lib/moderate'
 import { toast } from 'sonner'
-import { MessageCircle, Send, Trash2, ShieldAlert } from 'lucide-react'
+import { ChatCircle, PaperPlaneRight, Trash, ShieldWarning } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 import type { Comment } from '@/lib/types'
 
@@ -103,7 +103,7 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
   return (
     <div className="space-y-4">
       <h3 className="flex items-center gap-2 font-semibold text-foreground">
-        <MessageCircle className="h-5 w-5 text-primary" />
+        <ChatCircle weight="fill" className="h-5 w-5 text-primary" />
         의견 나누기
       </h3>
 
@@ -126,14 +126,14 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
             disabled={!content.trim() || isSubmitting}
             className="h-auto"
           >
-            {isSubmitting ? <Spinner className="h-4 w-4" /> : <Send className="h-4 w-4" />}
+            {isSubmitting ? <Spinner className="h-4 w-4" /> : <PaperPlaneRight weight="fill" className="h-4 w-4" />}
           </Button>
         </div>
 
         {/* 인라인 비속어 경고 */}
         {profanityError && (
           <div className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-2.5 text-sm text-destructive">
-            <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
+            <ShieldWarning weight="fill" className="mt-0.5 h-4 w-4 shrink-0" />
             <div className="space-y-1">
               <p className="font-medium">부적절한 표현이 포함되어 있습니다</p>
               <p className="text-destructive/80">
@@ -162,7 +162,7 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
 
       {!isLoading && comments?.length === 0 && (
         <Empty
-          icon={MessageCircle}
+          icon={ChatCircle}
           title="아직 의견이 없어요"
           description="첫 번째 의견을 남겨보세요!"
           className="py-8"
@@ -172,16 +172,16 @@ export function CommentSection({ decisionId }: CommentSectionProps) {
       {!isLoading && comments && comments.length > 0 && (
         <div className="space-y-3">
           {comments.map((comment) => (
-            <div key={comment.id} className="rounded-lg border bg-card p-3">
+            <div key={comment.id} className="rounded-xl border border-white/30 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm p-3">
               <div className="flex items-start justify-between gap-2">
                 <p className="flex-1 text-sm text-foreground">{comment.content}</p>
                 {comment.session_id === sessionId && (
                   <button
                     onClick={() => handleDelete(comment.id)}
-                    className="text-muted-foreground hover:text-destructive"
+                    className="text-muted-foreground hover:text-destructive transition-colors"
                     title="삭제"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash weight="fill" className="h-4 w-4" />
                   </button>
                 )}
               </div>

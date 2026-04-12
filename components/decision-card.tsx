@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { MessageCircle, Users, CheckCircle2, Clock, Timer } from 'lucide-react'
+import {
+  ChatCircle, UsersThree, CheckCircle, Clock, Timer,
+  ForkKnife, TShirt, GameController, BookOpen, Heart, Star,
+} from '@phosphor-icons/react'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
 import { CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
@@ -11,19 +14,20 @@ import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { ShareButton } from '@/components/share-button'
 
-const CATEGORY_BADGE: Record<Category, string> = {
-  '음식': 'bg-orange-100 text-orange-600',
-  '패션': 'bg-pink-100 text-pink-600',
-  '여가': 'bg-violet-100 text-violet-600',
-  '공부': 'bg-blue-100 text-blue-600',
-  '연애': 'bg-rose-100 text-rose-600',
-  '기타': 'bg-slate-100 text-slate-600',
+const CATEGORY_META: Record<Category, { color: string; icon: React.ElementType }> = {
+  '음식': { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900/40 dark:text-orange-300', icon: ForkKnife },
+  '패션': { color: 'bg-pink-100   text-pink-600   dark:bg-pink-900/40   dark:text-pink-300',   icon: TShirt },
+  '여가': { color: 'bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300', icon: GameController },
+  '공부': { color: 'bg-blue-100   text-blue-600   dark:bg-blue-900/40   dark:text-blue-300',   icon: BookOpen },
+  '연애': { color: 'bg-rose-100   text-rose-600   dark:bg-rose-900/40   dark:text-rose-300',   icon: Heart },
+  '기타': { color: 'bg-slate-100  text-slate-600  dark:bg-slate-800/60  dark:text-slate-300',  icon: Star },
 }
 
 function CategoryBadge({ category }: { category: Category }) {
+  const { color, icon: Icon } = CATEGORY_META[category]
   return (
-    <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold', CATEGORY_BADGE[category])}>
-      {CATEGORY_EMOJIS[category]} {category}
+    <span className={cn('inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold', color)}>
+      <Icon weight="fill" className="h-3 w-3" /> {category}
     </span>
   )
 }
@@ -133,21 +137,21 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const timeAgo = getTimeAgo(new Date(decision.created_at))
 
   return (
-    <Card className="overflow-hidden border-border/60 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/8 card-glow">
+    <Card className="overflow-hidden glass-card rounded-2xl card-hover border-0">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
             <div className="mb-2 flex flex-wrap items-center gap-1.5">
               <CategoryBadge category={decision.category as Category} />
               {isClosed && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
-                  <CheckCircle2 className="h-3 w-3" />
+                <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                  <CheckCircle weight="fill" className="h-3 w-3" />
                   마감됨
                 </span>
               )}
               {!isClosed && remainingTime && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-600">
-                  <Timer className="h-3 w-3" />
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-600 dark:bg-amber-900/40 dark:text-amber-300">
+                  <Timer weight="fill" className="h-3 w-3" />
                   {remainingTime}
                 </span>
               )}
@@ -238,23 +242,23 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
         </div>
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between border-t border-border/40 bg-gradient-to-r from-primary/3 to-accent/3 px-4 py-2.5 text-xs text-muted-foreground">
+      <CardFooter className="flex items-center justify-between border-t border-white/30 dark:border-white/10 bg-white/20 dark:bg-white/5 px-4 py-2.5 text-xs text-muted-foreground">
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">
-            <Users className="h-3.5 w-3.5" />
-            <span className="font-medium">{totalVotes}명</span> 참여
+            <UsersThree weight="fill" className="h-3.5 w-3.5 text-primary/60" />
+            <span className="font-semibold text-foreground/70">{totalVotes}명</span> 참여
           </span>
           <Link
             href={`/decision/${decision.id}`}
             className="flex items-center gap-1 hover:text-primary transition-colors"
           >
-            <MessageCircle className="h-3.5 w-3.5" />
+            <ChatCircle weight="fill" className="h-3.5 w-3.5 text-primary/60" />
             {commentCount}개 의견
           </Link>
         </div>
         <div className="flex items-center gap-2.5">
           <span className="flex items-center gap-1">
-            <Clock className="h-3.5 w-3.5" />
+            <Clock weight="fill" className="h-3.5 w-3.5" />
             {timeAgo}
           </span>
           <ShareButton decisionId={decision.id} title={decision.title} variant="icon" />

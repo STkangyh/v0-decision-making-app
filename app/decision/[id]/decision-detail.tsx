@@ -8,25 +8,12 @@ import { CommentSection } from '@/components/comment-section'
 import { ShareButton } from '@/components/share-button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { CATEGORY_EMOJIS, type Category, type Decision } from '@/lib/types'
+import { type Category, type Decision } from '@/lib/types'
 import { cn } from '@/lib/utils'
-
-const CATEGORY_BADGE: Record<Category, string> = {
-  '음식': 'bg-orange-100 text-orange-600',
-  '패션': 'bg-pink-100 text-pink-600',
-  '여가': 'bg-violet-100 text-violet-600',
-  '공부': 'bg-blue-100 text-blue-600',
-  '연애': 'bg-rose-100 text-rose-600',
-  '기타': 'bg-slate-100 text-slate-600',
-}
-
-function CategoryBadge({ category }: { category: Category }) {
-  return (
-    <span className={cn('inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold', CATEGORY_BADGE[category])}>
-      {CATEGORY_EMOJIS[category]} {category}
-    </span>
-  )
-}
+import {
+  ForkKnife, TShirt, GameController, BookOpen, Heart, Star,
+  ArrowLeft, CheckCircle, UsersThree, Clock, Trash, Lock, Timer,
+} from '@phosphor-icons/react'
 import {
   Dialog,
   DialogContent,
@@ -40,15 +27,24 @@ import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
 import { toast } from 'sonner'
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Users,
-  Clock,
-  Trash2,
-  Lock,
-  Timer,
-} from 'lucide-react'
+
+const CATEGORY_META: Record<Category, { color: string; icon: React.ElementType }> = {
+  '음식': { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900/40 dark:text-orange-300', icon: ForkKnife },
+  '패션': { color: 'bg-pink-100   text-pink-600   dark:bg-pink-900/40   dark:text-pink-300',   icon: TShirt },
+  '여가': { color: 'bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300', icon: GameController },
+  '공부': { color: 'bg-blue-100   text-blue-600   dark:bg-blue-900/40   dark:text-blue-300',   icon: BookOpen },
+  '연애': { color: 'bg-rose-100   text-rose-600   dark:bg-rose-900/40   dark:text-rose-300',   icon: Heart },
+  '기타': { color: 'bg-slate-100  text-slate-600  dark:bg-slate-800/60  dark:text-slate-300',  icon: Star },
+}
+
+function CategoryBadge({ category }: { category: Category }) {
+  const { color, icon: Icon } = CATEGORY_META[category]
+  return (
+    <span className={cn('inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold', color)}>
+      <Icon weight="fill" className="h-3 w-3" /> {category}
+    </span>
+  )
+}
 
 
 interface DecisionDetailProps {
@@ -224,25 +220,25 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
           href="/"
           className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft weight="bold" className="h-4 w-4" />
           목록으로
         </Link>
 
-        <Card className="mb-6 border-border/60 bg-white card-glow">
+        <Card className="mb-6 glass-card rounded-2xl border-0">
           <CardHeader className="pb-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <div className="mb-3 flex flex-wrap items-center gap-2">
                   <CategoryBadge category={decision.category as Category} />
                   {isClosed && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-500">
-                      <CheckCircle2 className="h-3 w-3" />
+                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                      <CheckCircle weight="fill" className="h-3 w-3" />
                       마감됨
                     </span>
                   )}
                   {!isClosed && remainingTime && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-600">
-                      <Timer className="h-3 w-3" />
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-600 dark:bg-amber-900/40 dark:text-amber-300">
+                      <Timer weight="fill" className="h-3 w-3" />
                       {remainingTime}
                     </span>
                   )}
@@ -258,11 +254,11 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
 
             <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">
-                <Users className="h-4 w-4 text-primary/60" />
+                <UsersThree weight="fill" className="h-4 w-4 text-primary/60" />
                 <span className="font-medium text-foreground">{totalVotes}명</span> 참여
               </span>
               <span className="flex items-center gap-1">
-                <Clock className="h-4 w-4 text-primary/60" />
+                <Clock weight="fill" className="h-4 w-4 text-primary/60" />
                 {new Date(decision.created_at).toLocaleDateString('ko-KR')}
               </span>
             </div>
@@ -347,7 +343,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/30 dark:border-white/10 pt-4">
               <div className="flex flex-wrap gap-2">
                 {!isClosed && (
                   <Button
@@ -357,7 +353,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                     disabled={isClosing}
                     className="gap-1.5"
                   >
-                    {isClosing ? <Spinner className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                    {isClosing ? <Spinner className="h-4 w-4" /> : <Lock weight="fill" className="h-4 w-4" />}
                     투표 마감
                   </Button>
                 )}
@@ -365,7 +361,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
               <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
                 <DialogTrigger asChild>
                   <Button variant="outline" size="sm" className="gap-1.5 text-destructive hover:bg-destructive hover:text-destructive-foreground">
-                    <Trash2 className="h-4 w-4" />
+                    <Trash weight="fill" className="h-4 w-4" />
                     삭제
                   </Button>
                 </DialogTrigger>
@@ -395,7 +391,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
         </Card>
 
         {/* Comments Section */}
-        <Card>
+        <Card className="glass-card rounded-2xl border-0">
           <CardContent className="pt-6">
             <CommentSection decisionId={decision.id} />
           </CardContent>

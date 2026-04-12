@@ -1,28 +1,36 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { PlusCircle } from 'lucide-react'
+import { PlusCircle, Smiley } from '@phosphor-icons/react'
+import { ThemeSelector } from './theme-selector'
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-primary/10 bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-white/20 glass">
       <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent text-lg shadow-sm">
-            🤔
+
+        {/* 로고 */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl btn-gradient text-xl shadow-md group-hover:scale-105 transition-transform">
+            <Smiley weight="fill" className="text-white" />
           </div>
-          <div className="flex flex-col leading-none">
-            <span className="text-base font-bold gradient-text">대신 결정해 줘!</span>
-            <span className="text-[10px] text-muted-foreground">시험공부는 잠깐 내려놓고 ✨</span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-[15px] font-extrabold gradient-text tracking-tight">대신 결정해 줘!</span>
+            <span className="text-[10px] text-muted-foreground font-medium">딴짓하는 중... ✨</span>
           </div>
         </Link>
-        <Link href="/new">
-          <Button size="sm" className="gap-1.5 bg-gradient-to-r from-primary to-accent text-white shadow-sm hover:opacity-90 hover:shadow-md transition-all">
-            <PlusCircle className="h-4 w-4" />
-            결정 요청하기
-          </Button>
-        </Link>
+
+        {/* 우측 컨트롤 */}
+        <div className="flex items-center gap-2">
+          <ThemeSelector />
+          <Link href="/new">
+            <button className="btn-gradient flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold shadow-md">
+              <PlusCircle weight="bold" className="h-4 w-4" />
+              요청하기
+            </button>
+          </Link>
+        </div>
+
       </div>
     </header>
   )
