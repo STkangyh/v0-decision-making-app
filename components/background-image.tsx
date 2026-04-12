@@ -16,9 +16,9 @@ export function BackgroundImage() {
         onError={() => setShow(false)}
         className="h-full w-full object-cover"
         style={{
-          opacity: 0.13,
-          filter: 'blur(6px) saturate(1.2)',
-          transform: 'scale(1.05)', // blur 가장자리 잘림 방지
+          opacity: 0.28,
+          filter: 'blur(3px) saturate(1.3)',
+          transform: 'scale(1.04)', // blur 가장자리 잘림 방지
         }}
       />
     </div>
