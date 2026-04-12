@@ -76,6 +76,8 @@ BEGIN
     UPDATE public.decisions
     SET votes_b = votes_b + 1, updated_at = NOW()
     WHERE id = NEW.decision_id;
+  ELSE
+    RAISE EXCEPTION 'Invalid selected_option value: %', NEW.selected_option;
   END IF;
   RETURN NEW;
 END;
