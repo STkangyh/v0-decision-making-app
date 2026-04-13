@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "/Users/user/.local/bin/npx",
+      "runtimeArgs": ["next", "dev"],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

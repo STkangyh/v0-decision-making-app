@@ -4,175 +4,54 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ─────────────────────────────────────────
-   BASE (default = summer)
+   LIGHT MODE — 연한 노란색 테마
 ───────────────────────────────────────── */
 :root {
-  --primary:            oklch(0.58 0.19 213);   /* 시원한 청록 */
+  --primary:            oklch(0.68 0.21 40);    /* #FF7700 */
   --primary-foreground: oklch(0.99 0   0);
-  --accent:             oklch(0.60 0.20 258);   /* 딥 블루 */
+  --accent:             oklch(0.72 0.16 55);    /* 따뜻한 앰버 */
   --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.975 0.015 215); /* 하늘빛 크림 */
-  --foreground:         oklch(0.18  0.02 230);
+  --background:         oklch(1 0 0);  /* #FFFFFF */
+  --foreground:         oklch(0.18  0.03 50);
   --card:               oklch(1    0    0);
-  --card-foreground:    oklch(0.18  0.02 230);
+  --card-foreground:    oklch(0.18  0.03 50);
   --popover:            oklch(1    0    0);
-  --popover-foreground: oklch(0.18  0.02 230);
-  --secondary:          oklch(0.93  0.04 213);
-  --secondary-foreground: oklch(0.40 0.12 213);
-  --muted:              oklch(0.94  0.02 213);
-  --muted-foreground:   oklch(0.52  0.05 213);
-  --border:             oklch(0.87  0.04 213);
-  --input:              oklch(0.89  0.03 213);
-  --ring:               oklch(0.58  0.19 213);
+  --popover-foreground: oklch(0.18  0.03 50);
+  --secondary:          oklch(0.92  0.05 80);
+  --secondary-foreground: oklch(0.38 0.12 50);
+  --muted:              oklch(0.93  0.04 80);
+  --muted-foreground:   oklch(0.50  0.07 55);
+  --border:             oklch(0.78  0.17 68);  /* #FFAA00 */
+  --input:              oklch(0.88  0.05 75);
+  --ring:               oklch(0.67  0.20 45);
   --destructive:        oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
   --radius: 0.95rem;
 
-  /* 시즌 그라디언트 변수 */
-  --grad-from: oklch(0.58 0.19 213);
-  --grad-to:   oklch(0.60 0.20 258);
-  --blob-a:    oklch(0.78 0.14 213 / 0.12);
-  --blob-b:    oklch(0.72 0.16 258 / 0.10);
-  --dot-color: oklch(0.72 0.09 213 / 0.20);
-}
-
-/* ─────────────────────────────────────────
-   SPRING 🌸
-───────────────────────────────────────── */
-[data-season="spring"] {
-  --primary:            oklch(0.65 0.22 340);   /* 벚꽃 핑크 */
-  --primary-foreground: oklch(0.99 0   0);
-  --accent:             oklch(0.68 0.18 148);   /* 새싹 그린 */
-  --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.978 0.012 340);
-  --foreground:         oklch(0.18  0.02 340);
-  --secondary:          oklch(0.94  0.04 340);
-  --secondary-foreground: oklch(0.45 0.14 340);
-  --muted:              oklch(0.95  0.02 340);
-  --muted-foreground:   oklch(0.54  0.05 340);
-  --border:             oklch(0.88  0.04 340);
-  --input:              oklch(0.90  0.03 340);
-  --ring:               oklch(0.65  0.22 340);
-  --grad-from: oklch(0.65 0.22 340);
-  --grad-to:   oklch(0.68 0.18 148);
-  --blob-a:    oklch(0.82 0.14 340 / 0.14);
-  --blob-b:    oklch(0.82 0.16 148 / 0.10);
-  --dot-color: oklch(0.75 0.10 340 / 0.22);
-}
-
-/* ─────────────────────────────────────────
-   SUMMER 🌊 (default)
-───────────────────────────────────────── */
-[data-season="summer"] {
-  --primary:            oklch(0.58 0.19 213);
-  --primary-foreground: oklch(0.99 0   0);
-  --accent:             oklch(0.60 0.20 258);
-  --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.975 0.015 215);
-  --foreground:         oklch(0.18  0.02 230);
-  --secondary:          oklch(0.93  0.04 213);
-  --secondary-foreground: oklch(0.40 0.12 213);
-  --muted:              oklch(0.94  0.02 213);
-  --muted-foreground:   oklch(0.52  0.05 213);
-  --border:             oklch(0.87  0.04 213);
-  --input:              oklch(0.89  0.03 213);
-  --ring:               oklch(0.58  0.19 213);
-  --grad-from: oklch(0.58 0.19 213);
-  --grad-to:   oklch(0.60 0.20 258);
-  --blob-a:    oklch(0.78 0.14 213 / 0.12);
-  --blob-b:    oklch(0.72 0.16 258 / 0.10);
-  --dot-color: oklch(0.72 0.09 213 / 0.20);
-}
-
-/* ─────────────────────────────────────────
-   FALL 🍂
-───────────────────────────────────────── */
-[data-season="fall"] {
-  --primary:            oklch(0.67 0.20 45);    /* 따뜻한 오렌지 */
-  --primary-foreground: oklch(0.99 0   0);
-  --accent:             oklch(0.62 0.18 24);    /* 코퍼 레드 */
-  --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.978 0.014 65);
-  --foreground:         oklch(0.18  0.03 45);
-  --secondary:          oklch(0.94  0.04 45);
-  --secondary-foreground: oklch(0.42 0.13 45);
-  --muted:              oklch(0.95  0.02 45);
-  --muted-foreground:   oklch(0.54  0.06 45);
-  --border:             oklch(0.88  0.05 45);
-  --input:              oklch(0.90  0.04 45);
-  --ring:               oklch(0.67  0.20 45);
-  --grad-from: oklch(0.67 0.20 45);
-  --grad-to:   oklch(0.62 0.18 24);
-  --blob-a:    oklch(0.82 0.16 45  / 0.14);
-  --blob-b:    oklch(0.78 0.18 24  / 0.10);
-  --dot-color: oklch(0.75 0.10 45  / 0.22);
-}
-
-/* ─────────────────────────────────────────
-   WINTER ❄️
-───────────────────────────────────────── */
-[data-season="winter"] {
-  --primary:            oklch(0.58 0.22 278);   /* 인디고 바이올렛 */
-  --primary-foreground: oklch(0.99 0   0);
-  --accent:             oklch(0.66 0.16 230);   /* 아이스 블루 */
-  --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(0.975 0.015 258);
-  --foreground:         oklch(0.16  0.03 260);
-  --secondary:          oklch(0.93  0.04 278);
-  --secondary-foreground: oklch(0.40 0.14 278);
-  --muted:              oklch(0.94  0.02 278);
-  --muted-foreground:   oklch(0.52  0.06 278);
-  --border:             oklch(0.87  0.04 278);
-  --input:              oklch(0.89  0.03 278);
-  --ring:               oklch(0.58  0.22 278);
-  --grad-from: oklch(0.58 0.22 278);
-  --grad-to:   oklch(0.66 0.16 230);
-  --blob-a:    oklch(0.76 0.16 278 / 0.12);
-  --blob-b:    oklch(0.76 0.14 230 / 0.10);
-  --dot-color: oklch(0.72 0.10 278 / 0.20);
 }
 
 /* ─────────────────────────────────────────
    DARK MODE
 ───────────────────────────────────────── */
 .dark {
-  --background:         oklch(0.14 0.025 230);
-  --foreground:         oklch(0.96 0.005 230);
-  --card:               oklch(0.19 0.025 230);
-  --card-foreground:    oklch(0.96 0.005 230);
-  --popover:            oklch(0.19 0.025 230);
-  --popover-foreground: oklch(0.96 0.005 230);
-  --primary:            oklch(0.70 0.18 213);
+  --background:         oklch(0.14 0.02 50);
+  --foreground:         oklch(0.96 0.005 60);
+  --card:               oklch(0.19 0.02 50);
+  --card-foreground:    oklch(0.96 0.005 60);
+  --popover:            oklch(0.19 0.02 50);
+  --popover-foreground: oklch(0.96 0.005 60);
+  --primary:            oklch(0.72 0.19 45);
   --primary-foreground: oklch(0.10 0    0);
-  --accent:             oklch(0.68 0.18 258);
+  --accent:             oklch(0.75 0.15 75);
   --accent-foreground:  oklch(0.10 0    0);
-  --secondary:          oklch(0.24 0.04 230);
-  --secondary-foreground: oklch(0.90 0.02 230);
-  --muted:              oklch(0.24 0.03 230);
-  --muted-foreground:   oklch(0.60 0.05 230);
-  --border:             oklch(0.27 0.04 230);
-  --input:              oklch(0.27 0.04 230);
-  --ring:               oklch(0.70 0.18 213);
-  --dot-color: oklch(0.50 0.08 230 / 0.25);
-}
-
-.dark[data-season="spring"] {
-  --primary:  oklch(0.72 0.20 340);
-  --accent:   oklch(0.72 0.16 148);
-  --background: oklch(0.14 0.02 340);
-  --dot-color: oklch(0.50 0.08 340 / 0.25);
-}
-.dark[data-season="fall"] {
-  --primary:  oklch(0.72 0.19 45);
-  --accent:   oklch(0.68 0.17 24);
-  --background: oklch(0.14 0.02 45);
-  --dot-color: oklch(0.50 0.08 45 / 0.25);
-}
-.dark[data-season="winter"] {
-  --primary:  oklch(0.70 0.20 278);
-  --accent:   oklch(0.70 0.14 230);
-  --background: oklch(0.14 0.025 260);
-  --dot-color: oklch(0.50 0.08 278 / 0.25);
+  --secondary:          oklch(0.24 0.03 50);
+  --secondary-foreground: oklch(0.90 0.02 60);
+  --muted:              oklch(0.24 0.02 50);
+  --muted-foreground:   oklch(0.60 0.05 60);
+  --border:             oklch(0.27 0.03 50);
+  --input:              oklch(0.27 0.03 50);
+  --ring:               oklch(0.72 0.19 45);
+  --dot-color: oklch(0.50 0.07 45 / 0.25);
 }
 
 /* ─────────────────────────────────────────
@@ -214,12 +93,6 @@
 
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(ellipse at 15% 40%,  var(--blob-a) 0%, transparent 55%),
-      radial-gradient(ellipse at 85% 15%,  var(--blob-b) 0%, transparent 55%),
-      radial-gradient(ellipse at 50% 90%,  var(--blob-a) 0%, transparent 45%),
-      radial-gradient(var(--dot-color) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 100% 100%, 22px 22px;
     transition: background-color 0.4s ease, color 0.3s ease;
   }
 }
@@ -237,7 +110,7 @@
     inset 0 1px 0 oklch(1 0 0 / 0.5);
 }
 .dark .glass {
-  background: oklch(0.20 0.03 230 / 0.70);
+  background: oklch(0.20 0.02 50 / 0.70);
   border: 1px solid oklch(1 0 0 / 0.10);
   box-shadow:
     0 2px 16px oklch(0 0 0 / 0.30),
@@ -255,40 +128,47 @@
     inset 0 1px 0 oklch(1 0 0 / 0.60);
 }
 .dark .glass-card {
-  background: oklch(0.22 0.03 230 / 0.80);
+  background: oklch(0.22 0.02 50 / 0.80);
   border: 1px solid oklch(1 0 0 / 0.08);
   box-shadow:
     0 4px 24px oklch(0 0 0 / 0.35),
     inset 0 1px 0 oklch(1 0 0 / 0.05);
 }
 
-/* 그라디언트 텍스트 */
+/* 그라디언트 텍스트 → 단색 primary */
 .gradient-text {
-  background: linear-gradient(135deg, var(--grad-from), var(--grad-to));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary);
 }
 
-/* 그라디언트 버튼 */
+/* 버튼 → 단색 primary */
 .btn-gradient {
-  background: linear-gradient(135deg, var(--grad-from), var(--grad-to));
+  background: var(--primary);
   color: oklch(0.99 0 0);
   border: none;
   transition: opacity 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 .btn-gradient:hover {
-  opacity: 0.92;
+  opacity: 0.88;
   box-shadow: 0 4px 20px oklch(from var(--primary) l c h / 0.35);
   transform: translateY(-1px);
 }
 
 /* 투표 바 */
 .vote-a-bar {
-  background: linear-gradient(90deg, oklch(from var(--primary) l c h / 0.20), oklch(from var(--primary) l c h / 0.06));
+  background: #FFAA00;
+  opacity: 1;
 }
 .vote-b-bar {
-  background: linear-gradient(90deg, oklch(from var(--accent) l c h / 0.20), oklch(from var(--accent) l c h / 0.06));
+  background: #FFAA00;
+  opacity: 1;
+}
+.dark .vote-a-bar {
+  background: #FFAA00;
+  opacity: 0.85;
+}
+.dark .vote-b-bar {
+  background: #FFAA00;
+  opacity: 0.85;
 }
 
 /* 카드 호버 글로우 */

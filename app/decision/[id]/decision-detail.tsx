@@ -31,14 +31,14 @@ import { getSessionId } from '@/lib/session'
 import { toast } from 'sonner'
 
 const CATEGORY_META: Record<Category, { color: string; icon: React.ElementType }> = {
-  '음식': { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900/40 dark:text-orange-300', icon: ForkKnife },
-  '패션': { color: 'bg-pink-100   text-pink-600   dark:bg-pink-900/40   dark:text-pink-300',   icon: TShirt },
-  '여가': { color: 'bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300', icon: GameController },
-  '공부': { color: 'bg-blue-100   text-blue-600   dark:bg-blue-900/40   dark:text-blue-300',   icon: BookOpen },
-  '연애': { color: 'bg-rose-100   text-rose-600   dark:bg-rose-900/40   dark:text-rose-300',   icon: Heart },
-  '스포츠': { color: 'bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-300',   icon: Trophy },
-  '친구': { color: 'bg-amber-100  text-amber-600  dark:bg-amber-900/40  dark:text-amber-300',  icon: Handshake },
-  '기타': { color: 'bg-slate-100  text-slate-600  dark:bg-slate-800/60  dark:text-slate-300',  icon: Star },
+  '음식':  { color: 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300', icon: ForkKnife },
+  '패션':  { color: 'bg-orange-50  text-orange-500 dark:bg-orange-900 dark:text-orange-300', icon: TShirt },
+  '여가':  { color: 'bg-amber-100  text-amber-600  dark:bg-amber-900  dark:text-amber-300',  icon: GameController },
+  '공부':  { color: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-200', icon: BookOpen },
+  '연애':  { color: 'bg-amber-50   text-amber-600  dark:bg-amber-900  dark:text-amber-300',  icon: Heart },
+  '스포츠':{ color: 'bg-orange-200 text-orange-700 dark:bg-orange-900 dark:text-orange-300', icon: Trophy },
+  '친구':  { color: 'bg-amber-100  text-amber-700  dark:bg-amber-900  dark:text-amber-300',  icon: Handshake },
+  '기타':  { color: 'bg-orange-50  text-orange-400 dark:bg-orange-900 dark:text-orange-300', icon: Star },
 }
 
 function CategoryBadge({ category }: { category: Category }) {
@@ -281,7 +281,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
           목록으로
         </Link>
 
-        <Card className="mb-6 glass-card rounded-2xl border-0">
+        <Card className="mb-6 bg-white dark:bg-gray-900 rounded-2xl border-2 border-[#FFAA00]">
           <CardHeader className="pb-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
@@ -311,11 +311,11 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
 
             <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">
-                <UsersThree weight="fill" className="h-4 w-4 text-primary/60" />
+                <UsersThree weight="fill" className="h-4 w-4 text-[#FFAA00]" />
                 <span className="font-medium text-foreground">{totalVotes}명</span> 참여
               </span>
               <span className="flex items-center gap-1">
-                <Clock weight="fill" className="h-4 w-4 text-primary/60" />
+                <Clock weight="fill" className="h-4 w-4 text-[#FFAA00]" />
                 {new Date(decision.created_at).toLocaleDateString('ko-KR')}
               </span>
             </div>
@@ -331,10 +331,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'A'
-                    ? 'border-primary bg-primary/5 shadow-md shadow-primary/10'
+                    ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60 shadow-md'
                     : isClosed && winningOption === 'A'
-                      ? 'border-primary/50 bg-primary/3'
-                      : 'border-border/60 bg-slate-50/50 hover:border-primary/50 hover:bg-primary/3',
+                      ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60'
+                      : 'border-[#FFAA00] bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -343,18 +343,18 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-base font-bold flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/15 text-xs font-extrabold text-primary">A</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-extrabold text-white">A</span>
                     {decision.option_a}
                   </span>
                   {(votedOption || isClosed) && (
                     <div className="text-right">
-                      <div className="text-xl font-extrabold text-primary">{percentA}%</div>
+                      <div className="text-xl font-extrabold text-foreground">{percentA}%</div>
                       <div className="text-xs text-muted-foreground">{decision.votes_a}표</div>
                     </div>
                   )}
                 </div>
                 {votedOption === 'A' && (
-                  <p className="relative mt-1 text-xs font-medium text-primary">✓ 내가 선택했어요</p>
+                  <p className="relative mt-1 text-xs font-medium text-foreground">✓ 내가 선택했어요</p>
                 )}
               </button>
 
@@ -371,10 +371,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'B'
-                    ? 'border-accent bg-accent/5 shadow-md shadow-accent/10'
+                    ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60 shadow-md'
                     : isClosed && winningOption === 'B'
-                      ? 'border-accent/50 bg-accent/3'
-                      : 'border-border/60 bg-slate-50/50 hover:border-accent/50 hover:bg-accent/3',
+                      ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60'
+                      : 'border-[#FFAA00] bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -383,18 +383,18 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-base font-bold flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent/15 text-xs font-extrabold text-accent">B</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-extrabold text-white">B</span>
                     {decision.option_b}
                   </span>
                   {(votedOption || isClosed) && (
                     <div className="text-right">
-                      <div className="text-xl font-extrabold text-accent">{percentB}%</div>
+                      <div className="text-xl font-extrabold text-foreground">{percentB}%</div>
                       <div className="text-xs text-muted-foreground">{decision.votes_b}표</div>
                     </div>
                   )}
                 </div>
                 {votedOption === 'B' && (
-                  <p className="relative mt-1 text-xs font-medium text-accent">✓ 내가 선택했어요</p>
+                  <p className="relative mt-1 text-xs font-medium text-foreground">✓ 내가 선택했어요</p>
                 )}
               </button>
             </div>
@@ -490,7 +490,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
         </Card>
 
         {/* Comments Section */}
-        <Card className="glass-card rounded-2xl border-0">
+        <Card className="bg-white dark:bg-gray-900 rounded-2xl border-2 border-[#FFAA00]">
           <CardContent className="pt-6">
             <CommentSection decisionId={decision.id} />
           </CardContent>

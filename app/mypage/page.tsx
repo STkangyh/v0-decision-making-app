@@ -106,7 +106,7 @@ export default function MyPage() {
                 'inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200',
                 filter === key
                   ? 'btn-gradient border-transparent shadow-sm'
-                  : 'glass text-muted-foreground border-border hover:text-foreground hover:border-primary/40'
+                  : 'bg-white border-border text-foreground hover:border-primary/60 hover:bg-orange-50'
               )}
             >
               <Icon weight={filter === key ? 'fill' : 'regular'} className="h-4 w-4" />
