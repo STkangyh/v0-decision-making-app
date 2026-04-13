@@ -43,7 +43,7 @@ export function Header() {
         {/* 로고 */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <LogoMark />
-          <span className="text-[15px] font-extrabold gradient-text tracking-tight">대신 결정해 줘!</span>
+          <span className="text-[15px] text-[var(--orange-600)] font-extrabold tracking-tight">대신 결정해 줘!</span>
         </Link>
 
         {/* 우측 컨트롤 */}
@@ -54,7 +54,7 @@ export function Header() {
           {user && (
             <div className="flex items-center gap-1.5 glass rounded-full px-3 py-1.5">
               <Link href="/mypage" className="flex items-center gap-1.5 hover:text-primary transition-colors">
-                <User weight="fill" className="h-4 w-4 text-primary" />
+                <User weight="fill" className="h-4 w-4 text-[var(--orange-600)]" />
                 <span className="text-sm font-semibold text-foreground">{user.username}</span>
               </Link>
               <button

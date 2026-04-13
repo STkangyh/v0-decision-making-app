@@ -7,27 +7,35 @@
    LIGHT MODE — 연한 노란색 테마
 ───────────────────────────────────────── */
 :root {
-  --primary:            oklch(0.68 0.21 40);    /* #FF7700 */
-  --primary-foreground: oklch(0.99 0   0);
-  --accent:             oklch(0.72 0.16 55);    /* 따뜻한 앰버 */
-  --accent-foreground:  oklch(0.99 0   0);
-  --background:         oklch(1 0 0);  /* #FFFFFF */
-  --foreground:         oklch(0.18  0.03 50);
-  --card:               oklch(1    0    0);
-  --card-foreground:    oklch(0.18  0.03 50);
-  --popover:            oklch(1    0    0);
-  --popover-foreground: oklch(0.18  0.03 50);
-  --secondary:          oklch(0.92  0.05 80);
-  --secondary-foreground: oklch(0.38 0.12 50);
-  --muted:              oklch(0.93  0.04 80);
-  --muted-foreground:   oklch(0.50  0.07 55);
-  --border:             oklch(0.78  0.17 68);  /* #FFAA00 */
-  --input:              oklch(0.88  0.05 75);
-  --ring:               oklch(0.67  0.20 45);
-  --destructive:        oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --primary:            #FF7300;
+  --primary-foreground: #FFFFFF;
+  --accent:             #FFB300;    /* 따뜻한 앰버 */
+  --accent-foreground:  #FFFFFF;
+  --background:         #FFFFFF;
+  --foreground:         #000000;
+  --card:               #FFFFFF;
+  --card-foreground:    #000000;
+  --popover:            #FFFFFF;
+  --popover-foreground: #000000;
+  --secondary:          #FFFFFF;
+  --secondary-foreground: #000000;
+  --muted:              #FFFFFF;
+  --muted-foreground:   #000000;
+  --border:             #FF7300;
+  --input:              #FFFFFF;
+  --ring:               #FF7700;
+  --destructive:        #FF7300;
+  --destructive-foreground: #FFFFFF;
   --radius: 0.95rem;
-
+  --orange-100: #fff1e5;
+  --orange-200: #ffd5b3;
+  --orange-300: #ffb980;
+  --orange-400: #ff9d4d;
+  --orange-500: #ff811a;
+  --orange-600: #ff7300;
+  --orange-700: #cc5c00;
+  --orange-800: #994500;
+  --orange-900: #331700;
 }
 
 /* ─────────────────────────────────────────
@@ -79,6 +87,14 @@
   --color-border:             var(--border);
   --color-input:              var(--input);
   --color-ring:               var(--ring);
+  --color.bg.critical-weak: var(--orange-100);
+  --color.bg.brand-weak-pressed: var(--orange-200);
+  --color.stroke.brand-weak: var(--orange-300);
+  --color.fg.brand-solid: var(--orange-600);
+  --color.bg.brand-solid: var(--orange-600);
+  --color.fg.brand-contrast: var(--orange-700);
+  --color.bg.brand-solid-pressed: var(--orange-700);
+  --color.stroke.brand-solid: var(--orange-700);
   --radius-sm:  calc(var(--radius) - 4px);
   --radius-md:  calc(var(--radius) - 2px);
   --radius-lg:  var(--radius);
@@ -137,37 +153,36 @@
 
 /* 그라디언트 텍스트 → 단색 primary */
 .gradient-text {
-  color: var(--primary);
+  color: var(--orange-600);
 }
 
 /* 버튼 → 단색 primary */
 .btn-gradient {
-  background: var(--primary);
+  background: var(--orange-600);
   color: oklch(0.99 0 0);
   border: none;
   transition: opacity 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 .btn-gradient:hover {
   opacity: 0.88;
-  box-shadow: 0 4px 20px oklch(from var(--primary) l c h / 0.35);
+  box-shadow: 0 4px 20px oklch(from var(--orange-700) l c h / 0.35);
   transform: translateY(-1px);
 }
 
 /* 투표 바 */
 .vote-a-bar {
-  background: #FFAA00;
+  background: var(--orange-600);
   opacity: 1;
 }
 .vote-b-bar {
-  background: #FFAA00;
-  opacity: 1;
+  background: var(--orange-600);
 }
 .dark .vote-a-bar {
-  background: #FFAA00;
+  background: var(--orange-600);
   opacity: 0.85;
 }
 .dark .vote-b-bar {
-  background: #FFAA00;
+  background: var(--orange-600);
   opacity: 0.85;
 }
 

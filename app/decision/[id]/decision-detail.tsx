@@ -281,7 +281,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
           목록으로
         </Link>
 
-        <Card className="mb-6 bg-white dark:bg-gray-900 rounded-2xl border-2 border-[#FFAA00]">
+        <Card className="mb-6 bg-white dark:bg-gray-900 rounded-2xl border-2 border-border">
           <CardHeader className="pb-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
@@ -331,10 +331,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'A'
-                    ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60 shadow-md'
+                    ? 'border-border bg-white dark:bg-gray-800/60 shadow-md'
                     : isClosed && winningOption === 'A'
-                      ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60'
-                      : 'border-[#FFAA00] bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
+                      ? 'border-border bg-white dark:bg-gray-800/60'
+                      : 'border-border bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -343,7 +343,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-base font-bold flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-extrabold text-white">A</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-border text-xs font-extrabold text-white">A</span>
                     {decision.option_a}
                   </span>
                   {(votedOption || isClosed) && (
@@ -371,10 +371,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'B'
-                    ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60 shadow-md'
+                    ? 'border-border bg-white dark:bg-gray-800/60 shadow-md'
                     : isClosed && winningOption === 'B'
-                      ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60'
-                      : 'border-[#FFAA00] bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
+                      ? 'border-border bg-white dark:bg-gray-800/60'
+                      : 'border-border bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -383,7 +383,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-base font-bold flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-extrabold text-white">B</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-border text-xs font-extrabold text-white">B</span>
                     {decision.option_b}
                   </span>
                   {(votedOption || isClosed) && (
@@ -490,7 +490,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
         </Card>
 
         {/* Comments Section */}
-        <Card className="bg-white dark:bg-gray-900 rounded-2xl border-2 border-[#FFAA00]">
+        <Card className="bg-white dark:bg-gray-900 rounded-2xl border-2 border-border">
           <CardContent className="pt-6">
             <CommentSection decisionId={decision.id} />
           </CardContent>
