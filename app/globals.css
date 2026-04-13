@@ -156,11 +156,19 @@
 /* 투표 바 */
 .vote-a-bar {
   background: #FFAA00;
-  opacity: 0.15;
+  opacity: 1;
 }
 .vote-b-bar {
   background: #FFAA00;
-  opacity: 0.15;
+  opacity: 1;
+}
+.dark .vote-a-bar {
+  background: #FFAA00;
+  opacity: 0.85;
+}
+.dark .vote-b-bar {
+  background: #FFAA00;
+  opacity: 0.85;
 }
 
 /* 카드 호버 글로우 */

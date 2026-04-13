@@ -145,7 +145,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const timeAgo = getTimeAgo(new Date(decision.created_at))
 
   return (
-    <Card className="overflow-hidden bg-white border-2 border-[#FFAA00] rounded-2xl card-hover shadow-sm">
+    <Card className="overflow-hidden bg-white dark:bg-gray-900 border-2 border-[#FFAA00] rounded-2xl card-hover shadow-sm">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
@@ -183,10 +183,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'A'
-                ? 'border-[#FFAA00] bg-[#FFF8E6] shadow-sm'
+                ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60 shadow-sm'
                 : isClosed && localVotesA >= localVotesB && localVotesA > 0
-                  ? 'border-[#FFAA00] bg-[#FFF8E6]'
-                  : 'border-[#FFAA00] bg-white hover:bg-[#FFF8E6]',
+                  ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60'
+                  : 'border-[#FFAA00] bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -196,9 +196,9 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             <div className="relative flex items-center justify-between">
               <span className="font-semibold text-sm">
                 <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-bold text-white">A</span>
-                {decision.option_a}
+                <span className="text-foreground font-semibold">{decision.option_a}</span>
               </span>
-              {(votedOption || isClosed) && <span className="text-sm font-bold text-[#FFAA00]">{percentA}%</span>}
+              {(votedOption || isClosed) && <span className="text-sm font-bold text-foreground">{percentA}%</span>}
             </div>
           </button>
 
@@ -215,10 +215,10 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'B'
-                ? 'border-[#FFAA00] bg-[#FFF8E6] shadow-sm'
+                ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60 shadow-sm'
                 : isClosed && localVotesB > localVotesA
-                  ? 'border-[#FFAA00] bg-[#FFF8E6]'
-                  : 'border-[#FFAA00] bg-white hover:bg-[#FFF8E6]',
+                  ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60'
+                  : 'border-[#FFAA00] bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
@@ -228,9 +228,9 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
             <div className="relative flex items-center justify-between">
               <span className="font-semibold text-sm">
                 <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#FFAA00] text-xs font-bold text-white">B</span>
-                {decision.option_b}
+                <span className="text-foreground font-semibold">{decision.option_b}</span>
               </span>
-              {(votedOption || isClosed) && <span className="text-sm font-bold text-[#FFAA00]">{percentB}%</span>}
+              {(votedOption || isClosed) && <span className="text-sm font-bold text-foreground">{percentB}%</span>}
             </div>
           </button>
         </div>
@@ -240,7 +240,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
       <div className="px-4 pb-3">
         <Link
           href={`/decision/${decision.id}`}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#FFAA00] bg-muted py-2 text-sm font-semibold text-foreground transition-all hover:bg-orange-50 hover:text-primary"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#FFAA00] bg-transparent py-2 text-sm font-semibold text-foreground transition-all hover:bg-orange-50 hover:text-primary"
         >
           <ChatCircle weight="fill" className="h-4 w-4" />
           의견 보기 · 상세 페이지
@@ -248,7 +248,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
         </Link>
       </div>
 
-      <CardFooter className="flex items-center justify-between border-t border-[#FFAA00] bg-muted px-4 py-2.5 text-xs text-muted-foreground">
+      <CardFooter className="flex items-center justify-between border-t border-[#FFAA00] bg-transparent px-4 py-2.5 text-xs text-muted-foreground">
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">
             <UsersThree weight="fill" className="h-3.5 w-3.5 text-primary" />

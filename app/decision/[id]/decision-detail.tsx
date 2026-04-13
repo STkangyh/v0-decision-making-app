@@ -281,7 +281,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
           목록으로
         </Link>
 
-        <Card className="mb-6 glass-card rounded-2xl border-0">
+        <Card className="mb-6 bg-white dark:bg-gray-900 rounded-2xl border-2 border-[#FFAA00]">
           <CardHeader className="pb-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
@@ -331,10 +331,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'A'
-                    ? 'border-[#FFAA00] bg-[#FFF8E6] shadow-md'
+                    ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60 shadow-md'
                     : isClosed && winningOption === 'A'
-                      ? 'border-[#FFAA00] bg-[#FFF8E6]'
-                      : 'border-[#FFAA00] bg-white hover:bg-[#FFF8E6]',
+                      ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60'
+                      : 'border-[#FFAA00] bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -348,13 +348,13 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                   </span>
                   {(votedOption || isClosed) && (
                     <div className="text-right">
-                      <div className="text-xl font-extrabold text-[#FFAA00]">{percentA}%</div>
+                      <div className="text-xl font-extrabold text-foreground">{percentA}%</div>
                       <div className="text-xs text-muted-foreground">{decision.votes_a}표</div>
                     </div>
                   )}
                 </div>
                 {votedOption === 'A' && (
-                  <p className="relative mt-1 text-xs font-medium text-[#FFAA00]">✓ 내가 선택했어요</p>
+                  <p className="relative mt-1 text-xs font-medium text-foreground">✓ 내가 선택했어요</p>
                 )}
               </button>
 
@@ -371,10 +371,10 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'B'
-                    ? 'border-[#FFAA00] bg-[#FFF8E6] shadow-md'
+                    ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60 shadow-md'
                     : isClosed && winningOption === 'B'
-                      ? 'border-[#FFAA00] bg-[#FFF8E6]'
-                      : 'border-[#FFAA00] bg-white hover:bg-[#FFF8E6]',
+                      ? 'border-[#FFAA00] bg-white dark:bg-gray-800/60'
+                      : 'border-[#FFAA00] bg-white dark:bg-gray-800/60 hover:bg-orange-50 dark:hover:bg-gray-700/60',
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
@@ -388,13 +388,13 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                   </span>
                   {(votedOption || isClosed) && (
                     <div className="text-right">
-                      <div className="text-xl font-extrabold text-[#FFAA00]">{percentB}%</div>
+                      <div className="text-xl font-extrabold text-foreground">{percentB}%</div>
                       <div className="text-xs text-muted-foreground">{decision.votes_b}표</div>
                     </div>
                   )}
                 </div>
                 {votedOption === 'B' && (
-                  <p className="relative mt-1 text-xs font-medium text-[#FFAA00]">✓ 내가 선택했어요</p>
+                  <p className="relative mt-1 text-xs font-medium text-foreground">✓ 내가 선택했어요</p>
                 )}
               </button>
             </div>
@@ -490,7 +490,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
         </Card>
 
         {/* Comments Section */}
-        <Card className="glass-card rounded-2xl border-0">
+        <Card className="bg-white dark:bg-gray-900 rounded-2xl border-2 border-[#FFAA00]">
           <CardContent className="pt-6">
             <CommentSection decisionId={decision.id} />
           </CardContent>
