@@ -171,17 +171,24 @@
 
 /* 투표 바 */
 .vote-a-bar {
-  background: var(--orange-600);
+  background: var(--orange-200);
   opacity: 1;
 }
 .vote-b-bar {
+  background: var(--orange-200);
+  opacity: 1;
+}
+[data-voted="true"] .vote-a-bar,
+[data-voted="true"] .vote-b-bar {
   background: var(--orange-600);
 }
-.dark .vote-a-bar {
-  background: var(--orange-600);
+.dark .vote-a-bar,
+.dark .vote-b-bar {
+  background: var(--orange-200);
   opacity: 0.85;
 }
-.dark .vote-b-bar {
+.dark [data-voted="true"] .vote-a-bar,
+.dark [data-voted="true"] .vote-b-bar {
   background: var(--orange-600);
   opacity: 0.85;
 }
@@ -199,8 +206,8 @@
 
 /* TOP3 플로팅 버튼 pulse */
 @keyframes pulse-slow {
-  0%, 100% { box-shadow: 0 0 0 0 oklch(from var(--primary) l c h / 0.5); }
-  50%       { box-shadow: 0 0 0 10px oklch(from var(--primary) l c h / 0); }
+  0%, 100% { box-shadow: 0 0 0 0 oklch(from var(--orange-500) l c h / 0.7); }
+  50%       { box-shadow: 0 0 0 2px oklch(from var(--orange-500) l c h / 0); }
 }
 .animate-pulse-slow {
   animation: pulse-slow 3s ease-in-out infinite;

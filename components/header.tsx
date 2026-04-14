@@ -14,7 +14,7 @@ function LogoMark() {
     return (
       <div className="flex h-10 w-10 items-center justify-center rounded-2xl overflow-hidden shadow-md group-hover:scale-105 transition-transform">
         <Image
-          src="/images/logo.png"
+          src="/images/logo.svg"
           alt="로고"
           width={40}
           height={40}
@@ -43,7 +43,7 @@ export function Header() {
         {/* 로고 */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <LogoMark />
-          <span className="text-[15px] text-[var(--orange-600)] font-extrabold tracking-tight">대신 결정해 줘!</span>
+          <span className="text-[15px] text-[var(--orange-600)] font-extrabold tracking-tight">고민 많이 될거야</span>
         </Link>
 
         {/* 우측 컨트롤 */}

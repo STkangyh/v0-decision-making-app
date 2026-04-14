@@ -13,19 +13,19 @@ const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono'
 const BASE_URL = 'https://v0-decision-making-app-blush.vercel.app'
 
 export const metadata: Metadata = {
-  title: '대신 결정해 줘!',
+  title: '고민 많이 될거야',
   description: '공부하다 막히면 우리한테 맡겨 — 익명 A/B 투표 앱',
   openGraph: {
-    title: '대신 결정해 줘!',
+    title: '고민 많이 될거야',
     description: '공부하다 막히면 우리한테 맡겨 — 익명 A/B 투표 앱',
     url: BASE_URL,
-    siteName: '대신 결정해 줘!',
+    siteName: '고민 많이 될거야',
     locale: 'ko_KR',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '대신 결정해 줘!',
+    title: '고민 많이 될거야',
     description: '공부하다 막히면 우리한테 맡겨',
   },
 }

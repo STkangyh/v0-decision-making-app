@@ -49,7 +49,7 @@ export function Top3Popup() {
         className={cn(
           'fixed bottom-6 right-36 z-40',
           'flex items-center gap-2 rounded-full px-4 py-3',
-          'btn-gradient shadow-lg shadow-primary/30',
+          'bg-orange-400 shadow-lg',
           'text-white font-bold text-sm',
           'hover:scale-105 active:scale-95 transition-transform duration-200',
           'animate-pulse-slow'

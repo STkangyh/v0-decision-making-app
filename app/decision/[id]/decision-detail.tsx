@@ -328,6 +328,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
               <button
                 onClick={() => handleVote('A')}
                 disabled={!!votedOption || isClosed || isVoting}
+                data-voted={votedOption === 'A' ? 'true' : 'false'}
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'A'
@@ -368,6 +369,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
               <button
                 onClick={() => handleVote('B')}
                 disabled={!!votedOption || isClosed || isVoting}
+                data-voted={votedOption === 'B' ? 'true' : 'false'}
                 className={cn(
                   'relative w-full overflow-hidden rounded-xl border-2 p-4 text-left transition-all duration-200',
                   votedOption === 'B'

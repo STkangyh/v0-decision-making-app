@@ -180,6 +180,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
           <button
             onClick={() => handleVote('A')}
             disabled={!!votedOption || isClosed || isVoting}
+            data-voted={votedOption === 'A' ? 'true' : 'false'}
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'A'
@@ -212,6 +213,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
           <button
             onClick={() => handleVote('B')}
             disabled={!!votedOption || isClosed || isVoting}
+            data-voted={votedOption === 'B' ? 'true' : 'false'}
             className={cn(
               'relative w-full overflow-hidden rounded-xl border-2 p-3 text-left transition-all duration-200',
               votedOption === 'B'
@@ -240,7 +242,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
       <div className="px-4 pb-3">
         <Link
           href={`/decision/${decision.id}`}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-orange-600 bg-transparent py-2 text-sm font-semibold text-foreground transition-all hover:bg-orange-200 hover:text-primary"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl border bg-orange-100 border-orange-600 bg-transparent py-2 text-sm font-semibold text-foreground transition-all hover:bg-orange-200 hover:text-primary"
         >
           <ChatCircle weight="fill" className="h-4 w-4" />
           의견 보기 · 상세 페이지

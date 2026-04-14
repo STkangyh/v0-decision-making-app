@@ -10,7 +10,7 @@ export function HeroIcon() {
     return (
       <div className="flex h-14 w-14 items-center justify-center rounded-2xl overflow-hidden shadow-lg group-hover:scale-105 transition-transform">
         <Image
-          src="/images/hero-icon.png"
+          src="/images/hero-icon.svg"
           alt="히어로 아이콘"
           width={56}
           height={56}
