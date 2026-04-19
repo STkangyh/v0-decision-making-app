@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionId } from '@/lib/session'
 import { Crown } from '@phosphor-icons/react'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 /* ── 타입 ── */
 interface SpinRecord {
@@ -28,6 +29,7 @@ export function RotatingBadge() {
   const [pendingSpeed, setPendingSpeed] = useState(0)
   const [justBroke, setJustBroke] = useState(false)
   const [unlocked, setUnlocked] = useState(false) // 한 번이라도 기록 임계값 넘긴 적 있는지
+  const isMobile = useIsMobile()
 
   const isDragging = useRef(false)
   const lastAngle = useRef(0)
@@ -153,7 +155,7 @@ export function RotatingBadge() {
       <div
         ref={containerRef}
         className="fixed bottom-6 right-6 w-[360px] h-[360px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
-        style={{ zIndex: 10 }}
+        style={{ zIndex: isMobile ? -1 : 10 }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
