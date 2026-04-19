@@ -76,6 +76,7 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   const [decision, setDecision] = useState(initialDecision)
   const [votedOption, setVotedOption] = useState<'A' | 'B' | null>(null)
   const [isVoting, setIsVoting] = useState(false)
+  const [barReady, setBarReady] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
@@ -135,6 +136,14 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
   const percentA = totalVotes > 0 ? Math.round((decision.votes_a / totalVotes) * 100) : 50
   const percentB = totalVotes > 0 ? Math.round((decision.votes_b / totalVotes) * 100) : 50
   const winningOption = decision.votes_a > decision.votes_b ? 'A' : decision.votes_b > decision.votes_a ? 'B' : null
+
+  // 바가 보여야 할 때 0 → target 으로 차오르는 애니메이션 트리거
+  const showBars = !!(votedOption || isClosed)
+  useEffect(() => {
+    if (!showBars) { setBarReady(false); return }
+    const raf = requestAnimationFrame(() => setBarReady(true))
+    return () => cancelAnimationFrame(raf)
+  }, [showBars])
 
   useEffect(() => {
     const checkExistingVote = async () => {
@@ -339,8 +348,8 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
-                {(votedOption || isClosed) && (
-                  <div className="absolute inset-y-0 left-0 vote-a-bar transition-all duration-700" style={{ width: `${percentA}%` }} />
+                {showBars && (
+                  <div className="absolute inset-y-0 left-0 vote-a-bar transition-[width] duration-700 ease-out" style={{ width: barReady ? `${percentA}%` : '0%' }} />
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-base font-bold flex items-center gap-2">
@@ -380,8 +389,8 @@ export function DecisionDetail({ decision: initialDecision }: DecisionDetailProp
                   (votedOption || isClosed) ? 'cursor-default' : 'hover:scale-[1.005]'
                 )}
               >
-                {(votedOption || isClosed) && (
-                  <div className="absolute inset-y-0 left-0 vote-b-bar transition-all duration-700" style={{ width: `${percentB}%` }} />
+                {showBars && (
+                  <div className="absolute inset-y-0 left-0 vote-b-bar transition-[width] duration-700 ease-out" style={{ width: barReady ? `${percentB}%` : '0%' }} />
                 )}
                 <div className="relative flex items-center justify-between">
                   <span className="text-base font-bold flex items-center gap-2">

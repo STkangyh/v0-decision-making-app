@@ -48,6 +48,7 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const [isVoting, setIsVoting] = useState(false)
   const [remainingTime, setRemainingTime] = useState<string | null>(null)
   const [isExpired, setIsExpired] = useState(false)
+  const [barReady, setBarReady] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
   const [isBookmarked, setIsBookmarked] = useState(false)
@@ -68,6 +69,14 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
   const totalVotes = localVotesA + localVotesB
   const percentA = calcPercent(localVotesA, totalVotes)
   const percentB = calcPercent(localVotesB, totalVotes)
+
+  // 바가 보여야 할 때 0 → target 으로 차오르는 애니메이션 트리거
+  const showBars = !!(votedOption || isClosed)
+  useEffect(() => {
+    if (!showBars) { setBarReady(false); return }
+    const raf = requestAnimationFrame(() => setBarReady(true))
+    return () => cancelAnimationFrame(raf)
+  }, [showBars])
 
   useEffect(() => {
     const init = async () => {
@@ -191,8 +200,8 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
-            {(votedOption || isClosed) && (
-              <div className="absolute inset-y-0 left-0 vote-a-bar transition-all duration-700" style={{ width: `${percentA}%` }} />
+            {showBars && (
+              <div className="absolute inset-y-0 left-0 vote-a-bar transition-[width] duration-700 ease-out" style={{ width: barReady ? `${percentA}%` : '0%' }} />
             )}
             <div className="relative flex items-center justify-between">
               <span className="font-semibold text-sm">
@@ -224,8 +233,8 @@ export function DecisionCard({ decision, commentCount = 0 }: DecisionCardProps) 
               (votedOption || isClosed) ? 'cursor-default' : 'cursor-pointer hover:scale-[1.01]'
             )}
           >
-            {(votedOption || isClosed) && (
-              <div className="absolute inset-y-0 left-0 vote-b-bar transition-all duration-700" style={{ width: `${percentB}%` }} />
+            {showBars && (
+              <div className="absolute inset-y-0 left-0 vote-b-bar transition-[width] duration-700 ease-out" style={{ width: barReady ? `${percentB}%` : '0%' }} />
             )}
             <div className="relative flex items-center justify-between">
               <span className="font-semibold text-sm">
