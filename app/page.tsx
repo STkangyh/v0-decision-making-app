@@ -28,7 +28,7 @@ export default function HomePage() {
             </div>
             <div className="flex-1">
               <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                결정 장애 해결소
+                늘보의 무물보
               </p>
               <h1 className="text-2xl font-extrabold leading-tight">
                 <span className="text-[var(--orange-600)]">고민은 우리한테 맡겨.</span>

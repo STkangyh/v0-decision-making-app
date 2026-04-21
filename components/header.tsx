@@ -43,7 +43,7 @@ export function Header() {
         {/* 로고 */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <LogoMark />
-          <span className="text-[15px] text-[var(--orange-600)] font-extrabold tracking-tight">고민 많이 될거야</span>
+          <span className="text-[15px] text-[var(--orange-600)] font-extrabold tracking-tight">늘보의 무물보</span>
         </Link>
 
         {/* 우측 컨트롤 */}
