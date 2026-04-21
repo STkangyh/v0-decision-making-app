@@ -70,7 +70,7 @@ export function Header() {
           <Link href="/new">
             <button className="btn-gradient flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold shadow-md">
               <PlusCircle weight="bold" className="h-4 w-4" />
-              요청하기
+              질문올리기
             </button>
           </Link>
         </div>
